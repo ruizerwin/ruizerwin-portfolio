@@ -1,0 +1,30 @@
+.navmenu a {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.navmenu a span {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.navmenu a:hover span {
+    opacity: 1;
+}
+
+.scroll-top,
+.scroll-top.active {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    bottom: 20px !important;
+}
+
+@media (max-width: 768px) {
+    .scroll-top,
+    .scroll-top.active {
+        bottom: 90px !important; /* keep space above mobile UI */
+    }
+}

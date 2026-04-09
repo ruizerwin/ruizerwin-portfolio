@@ -1,0 +1,95 @@
+.contact {
+	min-height: auto;
+	background: #f3f6f9;
+}
+
+.contact .section-title {
+	padding-bottom: 40px;
+}
+
+.contact-info-wrap,
+.contact-form-card {
+	background: #ffffff;
+	border-radius: 18px;
+	padding: 30px;
+	box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+	height: 100%;
+}
+
+.contact .info-item {
+	padding: 18px 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.contact .info-item:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.contact .info-item h3 {
+	margin-bottom: 4px;
+}
+
+.contact .info-item p {
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.contact .contact-form-card .form-label {
+	font-weight: 600;
+	margin-bottom: 8px;
+	color: #45505b;
+}
+
+.contact .contact-form-card .form-control {
+	min-height: 50px;
+	border-radius: 12px !important;
+	border: 1px solid rgba(69, 80, 91, 0.18) !important;
+	background: #f8fafc !important;
+	transition: all 0.25s ease;
+}
+
+.contact .contact-form-card textarea.form-control {
+	min-height: 180px;
+	resize: vertical;
+}
+
+.contact .contact-form-card .form-control:focus {
+	background: #ffffff !important;
+	border-color: var(--accent-color) !important;
+	box-shadow: 0 0 0 0.2rem rgba(5, 99, 187, 0.12) !important;
+}
+
+.contact .php-email-form button[type='submit'] {
+	min-width: 180px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	padding: 12px 28px;
+	border-radius: 50px;
+	box-shadow: 0 8px 20px rgba(5, 99, 187, 0.22);
+}
+
+.contact .g-recaptcha {
+	transform-origin: left top;
+}
+
+.contact-legal-note {
+	font-size: 13px;
+	line-height: 1.6;
+	color: #6c757d;
+}
+
+.grecaptcha-badge {
+	visibility: visible !important;
+}
+@media (max-width: 575px) {
+	.contact-info-wrap,
+	.contact-form-card {
+		padding: 22px;
+		border-radius: 14px;
+	}
+
+	.contact .g-recaptcha {
+		transform: scale(0.92);
+	}
+}

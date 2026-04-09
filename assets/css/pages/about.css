@@ -1,0 +1,44 @@
+#about {
+	background: #f3f6f9;
+}
+
+#about .content h3 {
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+#about .content p {
+	margin-bottom: 16px;
+}
+
+#about img {
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#about .about-info li {
+	margin-bottom: 14px;
+	display: flex;
+	align-items: center;
+}
+
+#about .about-info i {
+	color: var(--accent-color);
+	margin-right: 8px;
+}
+
+#about .mini-card {
+	background: #ffffff;
+	border-radius: 12px;
+	padding: 18px 15px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+	text-align: center;
+	height: 100%;
+}
+
+#about .mini-card h4 {
+	margin-bottom: 6px;
+	font-size: 22px;
+	font-weight: 700;
+}
