@@ -8,9 +8,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 $csrfToken = (string) $_SESSION['csrf_token'];
 
-$recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY')
-    ? (string) CONTACT_RECAPTCHA_SITE_KEY
-    : '';
+$recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_RECAPTCHA_SITE_KEY : '';
 ?>
 
 <section id="contact" class="contact section">

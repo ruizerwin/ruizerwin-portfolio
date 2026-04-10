@@ -5,10 +5,6 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
 require_once dirname(__DIR__) . '/includes/boot.php';
 
 header('Content-Type: text/plain; charset=UTF-8');
@@ -39,14 +35,14 @@ function client_ip(): string
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    fail_response('Invalid request method.', 405);
+    fail_response('STEP 1: Invalid request method.', 405);
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | Security fields
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Security fields
+|--------------------------------------------------------------------------
+*/
 $csrfToken        = (string) ($_POST['csrf_token'] ?? '');
 $sessionCsrfToken = (string) ($_SESSION['csrf_token'] ?? '');
 $honeypot         = trim((string) ($_POST['company_website'] ?? ''));
@@ -54,66 +50,66 @@ $recaptchaToken   = trim((string) ($_POST['g-recaptcha-response'] ?? ''));
 $recaptchaAction  = trim((string) ($_POST['recaptcha_action'] ?? ''));
 
 if ($honeypot !== '') {
-    fail_response('Spam detected.', 400);
+    fail_response('STEP 2: Spam detected.', 400);
 }
 
 if ($csrfToken === '' || $sessionCsrfToken === '' || !hash_equals($sessionCsrfToken, $csrfToken)) {
-    fail_response('Security validation failed. Please refresh and try again.', 400);
+    fail_response('STEP 3: Security validation failed. Please refresh and try again.', 400);
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | Rate limit
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Rate limit
+|--------------------------------------------------------------------------
+*/
 $now = time();
 $lastSubmit = (int) ($_SESSION['contact_last_submit'] ?? 0);
 
 if (($now - $lastSubmit) < 15) {
-    fail_response('Please wait a few seconds before sending another message.', 429);
+    fail_response('STEP 4: Please wait a few seconds before sending another message.', 429);
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | Form fields
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Form fields
+|--------------------------------------------------------------------------
+*/
 $name    = clean_text($_POST['name'] ?? '', 100);
 $email   = clean_text($_POST['email'] ?? '', 150);
 $subject = clean_text($_POST['subject'] ?? '', 150);
 $message = clean_message($_POST['message'] ?? '', 3000);
 
 if ($name === '' || mb_strlen($name) < 2) {
-    fail_response('Please enter a valid name.');
+    fail_response('STEP 5: Please enter a valid name.');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    fail_response('Please enter a valid email address.');
+    fail_response('STEP 6: Please enter a valid email address.');
 }
 
 if ($subject === '' || mb_strlen($subject) < 3) {
-    fail_response('Please enter a valid subject.');
+    fail_response('STEP 7: Please enter a valid subject.');
 }
 
 if ($message === '' || mb_strlen($message) < 10) {
-    fail_response('Please enter a valid message.');
+    fail_response('STEP 8: Please enter a valid message.');
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | reCAPTCHA v3 verification
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| reCAPTCHA v3 verification
+|--------------------------------------------------------------------------
+*/
 if (!defined('CONTACT_RECAPTCHA_SECRET_KEY') || CONTACT_RECAPTCHA_SECRET_KEY === '') {
-    fail_response('reCAPTCHA secret key is missing.', 500);
+    fail_response('STEP 9: reCAPTCHA secret key is missing.', 500);
 }
 
 if ($recaptchaToken === '') {
-    fail_response('Security verification failed. Please try again.');
+    fail_response('STEP 10: Security verification token is missing.');
 }
 
 if ($recaptchaAction !== 'contact_form') {
-    fail_response('Invalid security action.', 400);
+    fail_response('STEP 11: Invalid security action.', 400);
 }
 
 $verifyPostData = http_build_query([
@@ -139,30 +135,37 @@ curl_close($ch);
 
 if ($verifyResult === false || $curlError !== '') {
     error_log('reCAPTCHA curl error: ' . $curlError);
-    fail_response('Unable to verify reCAPTCHA. Please try again later. cURL: ' . $curlError, 500);
+    fail_response('STEP 12: Unable to verify reCAPTCHA. cURL error: ' . $curlError, 500);
 }
 
 if ($httpCode !== 200) {
     error_log('reCAPTCHA HTTP code: ' . (string) $httpCode . ' body: ' . (string) $verifyResult);
-    fail_response('Unable to verify reCAPTCHA. HTTP code: ' . (string) $httpCode, 500);
+    fail_response('STEP 13: Unable to verify reCAPTCHA. HTTP code: ' . (string) $httpCode, 500);
 }
 
 $captchaData = json_decode((string) $verifyResult, true);
 
-if (
-    !is_array($captchaData) ||
-    empty($captchaData['success']) ||
-    (string) ($captchaData['action'] ?? '') !== 'contact_form' ||
-    (float) ($captchaData['score'] ?? 0) < 0.5
-) {
-    fail_response('Security verification failed. Please try again.');
+if (!is_array($captchaData)) {
+    fail_response('STEP 14: Invalid reCAPTCHA response.', 500);
+}
+
+if (empty($captchaData['success'])) {
+    fail_response('STEP 15: reCAPTCHA verification failed.', 400);
+}
+
+if ((string) ($captchaData['action'] ?? '') !== 'contact_form') {
+    fail_response('STEP 16: reCAPTCHA action mismatch.', 400);
+}
+
+if ((float) ($captchaData['score'] ?? 0) < 0.5) {
+    fail_response('STEP 17: reCAPTCHA score too low: ' . (string) ($captchaData['score'] ?? '0'), 400);
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | Mail config validation
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Mail config validation
+|--------------------------------------------------------------------------
+*/
 if (
     !defined('SMTP_HOST') ||
     !defined('SMTP_PORT') ||
@@ -173,14 +176,14 @@ if (
     !defined('CONTACT_TO_EMAIL') ||
     !defined('CONTACT_TO_NAME')
 ) {
-    fail_response('Mail configuration is incomplete.', 500);
+    fail_response('STEP 18: Mail configuration is incomplete.', 500);
 }
 
 /*
-    |--------------------------------------------------------------------------
-    | Send email
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Send email
+|--------------------------------------------------------------------------
+*/
 try {
     $mail = new PHPMailer(true);
 
@@ -214,11 +217,6 @@ try {
 
     $mail->Body = implode(PHP_EOL, $body);
 
-    /*
-        $mail->SMTPDebug = 2;
-        $mail->Debugoutput = 'html';
-        */
-
     $mail->send();
 
     $_SESSION['contact_last_submit'] = $now;
@@ -227,5 +225,5 @@ try {
     exit('OK');
 } catch (Exception $e) {
     error_log('Contact form mail error: ' . $e->getMessage());
-    fail_response('Unable to send your message right now. Please try again later.', 500);
+    fail_response('STEP 19: Mailer error: ' . $e->getMessage(), 500);
 }
