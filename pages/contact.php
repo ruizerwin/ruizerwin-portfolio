@@ -2,15 +2,11 @@
 
 declare(strict_types=1);
 
-$csrfToken = '';
-
-if (session_status() === PHP_SESSION_ACTIVE) {
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-
-    $csrfToken = (string) $_SESSION['csrf_token'];
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+$csrfToken = (string) $_SESSION['csrf_token'];
 
 $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY')
     ? (string) CONTACT_RECAPTCHA_SITE_KEY
