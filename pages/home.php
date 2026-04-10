@@ -23,7 +23,7 @@
 
                         <div class="hero-typed-wrap">
                             <span class="hero-prefix">Specialized in:</span>
-                            <span class="typed" data-typed-items="PHP 8 Development,Laravel + staging test & CodeIgniter,REST API Integration,MySQL Optimization,AWS Deployment"></span>
+                            <span class="typed" data-typed-items="PHP 8 Development,Laravel + staging test,CodeIgniter,REST API Integration,MySQL Optimization,AWS Deployment"></span>
                         </div>
 
                         <div class="hero-stats">
