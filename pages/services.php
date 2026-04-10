@@ -80,6 +80,16 @@
                 </div>
             </div>
 
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-item item-pink">
+                    <div class="icon">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <h3>Deployment & Automation</h3>
+                    <p>Set up CI/CD pipelines, server environments, and automated deployments for PHP applications.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 

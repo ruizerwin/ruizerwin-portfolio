@@ -23,7 +23,7 @@
 
                         <div class="hero-typed-wrap">
                             <span class="hero-prefix">Specialized in:</span>
-                            <span class="typed" data-typed-items="PHP 8 Development,Laravel & CodeIgniter,REST API Integration,MySQL Optimization,AWS Deployment"></span>
+                            <span class="typed" data-typed-items="PHP 8 Development,Laravel + staging test & CodeIgniter,REST API Integration,MySQL Optimization,AWS Deployment"></span>
                         </div>
 
                         <div class="hero-stats">
@@ -66,6 +66,35 @@
         </div>
     </section>
 
+    <section id="devops" class="section">
+        <div class="container section-title">
+            <h2>Deployment & DevOps</h2>
+            <p>Modern deployment workflows and infrastructure setup.</p>
+        </div>
+
+        <div class="row gy-4">
+            <div class="col-lg-4">
+                <div class="service-item">
+                    <h3>CI/CD Pipelines</h3>
+                    <p>Automated deployments using GitHub Actions and SSH to production servers.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="service-item">
+                    <h3>AWS Lightsail</h3>
+                    <p>Configured and deployed PHP applications with Apache, SSL, and domain setup.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="service-item">
+                    <h3>Environment Setup</h3>
+                    <p>Local WAMP + Virtual Hosts + Production separation and workflow automation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!--
     <section id="skills" class="skills section">
         <div class="container section-title">
