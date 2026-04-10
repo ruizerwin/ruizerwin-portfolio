@@ -24,6 +24,12 @@ if (!is_file($projectRoot . '/.env')) {
 $dotenv = Dotenv::createImmutable($projectRoot);
 $dotenv->safeLoad();
 
+echo '<pre>';
+var_dump($_ENV['SMTP_USERNAME'] ?? null);
+var_dump($_ENV['SMTP_PASSWORD'] ?? null);
+echo '</pre>';
+exit;
+
 define('APP_NAME', $_ENV['APP_NAME'] ?? 'ruizerwin');
 define('APP_URL', $_ENV['APP_URL'] ?? 'https://ruizerwin.com');
 
