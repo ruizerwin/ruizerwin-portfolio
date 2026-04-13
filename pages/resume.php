@@ -63,24 +63,6 @@ declare(strict_types=1);
                     <p><em>Intellipaat, Mississauga, ON</em></p>
                 </div>
 
-                <div class="resume-item">
-                    <h4>Computer Networking</h4>
-                    <h5>2002</h5>
-                    <p><em>León, Nicaragua</em></p>
-                </div>
-
-                <div class="resume-item">
-                    <h4>Computer Maintenance and Repair</h4>
-                    <h5>2002</h5>
-                    <p><em>León, Nicaragua</em></p>
-                </div>
-
-                <div class="resume-item">
-                    <h4>Web Development</h4>
-                    <h5>2002</h5>
-                    <p><em>León, Nicaragua</em></p>
-                </div>
-
             </div>
 
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
