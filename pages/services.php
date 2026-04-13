@@ -94,3 +94,65 @@
     </div>
 
 </section>
+
+
+
+<section id="devops" class="section">
+    <div class="container section-title">
+        <h2>Deployment & DevOps</h2>
+        <p>Modern deployment workflows and infrastructure setup.</p>
+    </div>
+
+    <div class="row gy-4">
+        <div class="col-lg-4">
+            <div class="service-item">
+                <h3>CI/CD Pipelines</h3>
+                <p>Automated deployments using GitHub Actions and SSH to production servers.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="service-item">
+                <h3>AWS Lightsail</h3>
+                <p>Configured and deployed PHP applications with Apache, SSL, and domain setup.</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="service-item">
+                <h3>Environment Setup</h3>
+                <p>Local WAMP + Virtual Hosts + Production separation and workflow automation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+    <section id="skills" class="skills section">
+        <div class="container section-title">
+            <h2>Skills</h2>
+            <p>Technologies and expertise.</p>
+        </div>
+
+        <div class="container">
+            <div class="progress">
+                <span class="skill">PHP <i class="val">95%</i></span>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="progress">
+                <span class="skill">MySQL <i class="val">90%</i></span>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" style="width:90%"></div>
+                </div>
+            </div>
+
+            <div class="progress">
+                <span class="skill">Laravel / CI <i class="val">85%</i></span>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" style="width:85%"></div>
+                </div>
+            </div>
+        </div>
+    </section>-->
