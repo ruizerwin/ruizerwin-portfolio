@@ -20,9 +20,9 @@ declare(strict_types=1);
                     <p class="resume-summary">
                         <em>
                             I am a PHP web developer with many years of experience building and maintaining business
-                            websites and web applications. My work focuses on backend development, database structure,
-                            API integrations, and reliable solutions that help teams work better. I enjoy solving
-                            problems, improving systems, and continuing to grow professionally in Canada.
+                            websites and web applications. My work focuses on backend development, databases, API
+                            integrations, and practical solutions that improve reliability and performance. I enjoy
+                            solving problems, learning continuously, and growing professionally in Canada.
                         </em>
                     </p>
                     <ul>
@@ -124,17 +124,22 @@ declare(strict_types=1);
                 </div>
 
                 <div class="resume-item">
+                    <h4>English for Academic Purposes (EAP)</h4>
+                    <h5>2025 - Present</h5>
+                    <p><em>Fanshawe College — London, ON</em></p>
+                    <p>
+                        Currently completing advanced English studies to strengthen professional communication
+                        and support future academic growth in Canada.
+                    </p>
+                </div>
+
+                <div class="resume-item">
                     <h4>School Bus Driver (Part-Time)</h4>
                     <h5>Sept 2025 - Present</h5>
                     <p><em>Langs — London, ON</em></p>
                     <p>
-                        Part-time position while continuing my web development career and studies.
+                        Part-time role while continuing my web development career and studies in Canada.
                     </p>
-                    <ul>
-                        <li>Perform daily vehicle safety inspections.</li>
-                        <li>Ensure safe and timely transportation of students.</li>
-                        <li>Follow safety procedures and school transportation guidelines.</li>
-                    </ul>
                 </div>
 
             </div>
