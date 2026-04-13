@@ -7,7 +7,7 @@ declare(strict_types=1);
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Portfolio</h2>
-        <p>Some of the projects and systems I have worked on.</p>
+        <p>Selected systems and projects I have contributed to.</p>
     </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -17,11 +17,11 @@ declare(strict_types=1);
             $projects = [
                 [
                     'title'       => 'JBI Internal System',
-                    'subtitle'    => 'Internal ERP / Business Platform',
-                    'description' => 'Custom internal tools for order flow, RGA, invoices, shipping, reporting, and secure admin workflows.',
+                    'subtitle'    => 'ERP / Operations Platform',
+                    'description' => 'Built internal tools for order flow, RGA, invoices, shipping, reporting, and secure admin operations.',
                     'results'     => [
-                        'Built business-critical internal tools for daily operations.',
-                        'Improved workflow efficiency across reporting and order handling.',
+                        'Built business-critical tools for daily operations.',
+                        'Improved workflow efficiency for reporting and order handling.',
                         'Supported secure admin processes and long-term maintenance.',
                     ],
                     'tech'        => ['PHP', 'MySQL', 'jQuery', 'Bootstrap'],
@@ -32,10 +32,10 @@ declare(strict_types=1);
                 ],
                 [
                     'title'       => 'Haya Solutions API Integration',
-                    'subtitle'    => 'RESTful API Development',
-                    'description' => 'Built and connected API endpoints with clean architecture, reusable components, and better integration flow.',
+                    'subtitle'    => 'API Integration / Backend',
+                    'description' => 'Developed and connected REST API endpoints with reusable components and cleaner integration architecture.',
                     'results'     => [
-                        'Integrated third-party services through RESTful APIs.',
+                        'Integrated third-party services through REST APIs.',
                         'Improved development speed with reusable backend components.',
                         'Created cleaner and easier-to-maintain integration logic.',
                     ],
@@ -47,12 +47,12 @@ declare(strict_types=1);
                 ],
                 [
                     'title'       => 'Drupal Optimization Project',
-                    'subtitle'    => 'CMS Performance Improvement',
-                    'description' => 'Improved Drupal performance, front-end structure, and maintainability using Twig and Bootstrap.',
+                    'subtitle'    => 'CMS Performance / Front-End',
+                    'description' => 'Improved Drupal performance, structure, and maintainability using Twig, Bootstrap, and cleaner front-end implementation.',
                     'results'     => [
                         'Improved front-end structure and maintainability.',
                         'Helped optimize performance and load speed.',
-                        'Enhanced responsive layout quality using Twig and Bootstrap.',
+                        'Enhanced responsive layout quality.',
                     ],
                     'tech'        => ['Drupal', 'Twig', 'Bootstrap', 'PHP'],
                     'image'       => 'assets/img/portfolio/y_partners.jpg',
@@ -111,11 +111,11 @@ declare(strict_types=1);
                                 <?php if ($details_url !== '' && $details_url !== '#'): ?>
                                     <a
                                         href="<?= e($details_url); ?>"
-                                        class="btn btn-outline-primary btn-sm">Details</a>
+                                        class="btn btn-outline-primary btn-sm">Project Details</a>
                                 <?php endif; ?>
 
                                 <?php if (($demo_url === '' || $demo_url === '#') && ($details_url === '' || $details_url === '#')): ?>
-                                    <a href="#contact" class="btn btn-outline-primary btn-sm">Ask About This Project</a>
+                                    <a href="#contact" class="btn btn-outline-primary btn-sm">Ask for Details</a>
                                 <?php endif; ?>
                             </div>
                         </div>
