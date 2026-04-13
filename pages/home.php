@@ -9,12 +9,12 @@
             <div class="col-lg-8 col-xl-7">
                 <div class="hero-content">
 
-                    <span class="hero-badge">PHP Developer • Backend Specialist • Problem Solver</span>
+                    <span class="hero-badge">PHP Developer • Backend developer • Problem Solver</span>
 
                     <h1><?= e('Erwin D Padilla'); ?></h1>
 
                     <p class="hero-lead">
-                        <?= e('Experienced PHP developer focused on secure systems, scalable backend architecture, and practical solutions that help businesses grow.'); ?>
+                        <?= e('Experienced PHP developer focused on secure systems and practical solutions that help businesses grow.'); ?>
                     </p>
 
                     <ul class="hero-benefits">
@@ -34,9 +34,7 @@
 
                     <div class="hero-typed-wrap">
                         <span class="hero-prefix"><?= e('Specialized in:'); ?></span>
-                        <span
-                            class="typed"
-                            data-typed-items="PHP 8.2+ Development,Laravel Applications,CodeIgniter Systems,REST API Integration,MySQL Optimization,AWS Deployment"></span>
+                        <span class="typed" data-typed-items="PHP 8.2+ Development,Laravel Applications,CodeIgniter Systems,REST API Integration,MySQL Optimization,AWS Deployment"></span>
                     </div>
 
                     <div class="hero-stats">
@@ -66,6 +64,7 @@
                         <span class="hero-pill"><?= e('MySQL'); ?></span>
                         <span class="hero-pill"><?= e('REST APIs'); ?></span>
                         <span class="hero-pill"><?= e('AWS'); ?></span>
+                        <span class="hero-pill"><?= e('Drupal'); ?></span>
                     </div>
 
                     <div class="social-links hero-social-links mt-4">
