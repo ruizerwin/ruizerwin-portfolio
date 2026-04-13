@@ -1,27 +1,28 @@
 <?php
-    declare(strict_types=1);
+
+declare(strict_types=1);
 ?>
 <section id="resume" class="resume section">
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Resume</h2>
-        <p>My experience and education.</p>
+        <p>My experience, education, and the technologies I work with.</p>
     </div>
 
     <div class="container">
-        <div class="row">
+        <div class="row gy-4">
 
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                <h3 class="resume-title">Professional Summary</h3>
 
+                <h3 class="resume-title">Professional Summary</h3>
                 <div class="resume-item pb-0">
                     <h4>Erwin D Padilla</h4>
-                    <p>
+                    <p class="resume-summary">
                         <em>
-                            Experienced PHP developer with strong web development skills focused on modern PHP, MySQL,
-                            RESTful APIs, Bootstrap, JavaScript, and AWS deployment workflows. Strong problem-solving,
-                            teamwork, debugging, and delivery under deadlines, while continuing academic and professional
-                            growth in Canada.
+                            I am a PHP web developer with many years of experience building and maintaining business
+                            websites and web applications. My work focuses on backend development, database structure,
+                            API integrations, and reliable solutions that help teams work better. I enjoy solving
+                            problems, improving systems, and continuing to grow professionally in Canada.
                         </em>
                     </p>
                     <ul>
@@ -31,18 +32,31 @@
                     </ul>
                 </div>
 
+                <h3 class="resume-title">Core Skills</h3>
+                <div class="resume-skills">
+                    <span>PHP 8.2+</span>
+                    <span>Laravel</span>
+                    <span>CodeIgniter</span>
+                    <span>MySQL</span>
+                    <span>REST APIs</span>
+                    <span>Bootstrap</span>
+                    <span>JavaScript</span>
+                    <span>AWS</span>
+                </div>
+
                 <h3 class="resume-title">Education</h3>
                 <div class="resume-item">
                     <h4>Bachelor’s Degree in Computer Science</h4>
                     <h5>1997 - 2003</h5>
                     <p><em>National Autonomous University of Nicaragua, León, Nicaragua</em></p>
                     <p>
-                        Completed formal computer science studies with a foundation in programming,
-                        systems, technical problem-solving, and software-related coursework.
+                        Strong academic foundation in programming, systems, technical problem-solving,
+                        and software development.
                     </p>
                 </div>
 
                 <h3 class="resume-title">Related Training</h3>
+
                 <div class="resume-item">
                     <h4>Cloud Architecture</h4>
                     <h5>2022</h5>
@@ -66,9 +80,11 @@
                     <h5>2002</h5>
                     <p><em>León, Nicaragua</em></p>
                 </div>
+
             </div>
 
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+
                 <h3 class="resume-title">Professional Experience</h3>
 
                 <div class="resume-item">
@@ -76,11 +92,11 @@
                     <h5>2007 - 2022</h5>
                     <p><em>J&amp;B Importers — Remote / Miami, FL</em></p>
                     <ul>
-                        <li>Developed and maintained multiple company websites with full front-end and back-end development.</li>
-                        <li>Set up and configured servers for PHP applications, SQL Server, and MySQL databases.</li>
-                        <li>Built secure custom modules for authentication, sessions, payments, and responsive layouts.</li>
-                        <li>Reduced system errors by 90% through improved logging and long-term maintenance.</li>
-                        <li>Provided technical support and contributed to overall system stability.</li>
+                        <li>Built and maintained company websites with both front-end and back-end development.</li>
+                        <li>Configured and supported PHP applications, SQL Server, and MySQL environments.</li>
+                        <li>Developed custom features for authentication, sessions, payments, and responsive layouts.</li>
+                        <li>Improved system stability and reduced recurring issues through maintenance and debugging.</li>
+                        <li>Provided technical support and helped keep internal systems reliable.</li>
                     </ul>
                 </div>
 
@@ -89,9 +105,9 @@
                     <h5>2023</h5>
                     <p><em>Haya Solutions — Remote / Mississauga, ON</em></p>
                     <ul>
-                        <li>Built and implemented RESTful APIs using CodeIgniter for third-party service integrations.</li>
-                        <li>Improved development time by 20% through cleaner architecture and reusable components.</li>
-                        <li>Developed custom functions and extended features based on client requirements.</li>
+                        <li>Built REST API integrations using CodeIgniter for third-party services.</li>
+                        <li>Improved development speed with cleaner structure and reusable components.</li>
+                        <li>Created custom functions and features based on client needs.</li>
                     </ul>
                 </div>
 
@@ -100,12 +116,27 @@
                     <h5>2024 - 2025</h5>
                     <p><em>Y Partners Inc. — Remote / London, ON</em></p>
                     <ul>
-                        <li>Created, maintained, and optimized Drupal CMS features to improve speed and stability.</li>
-                        <li>Worked with front-end teams to build modern, mobile-friendly interfaces using Twig and Bootstrap.</li>
-                        <li>Built custom Drupal modules to support business logic and new system functionality.</li>
-                        <li>Reduced load time by 30% through optimization and content-structure improvements.</li>
+                        <li>Created and improved Drupal CMS features for better performance and stability.</li>
+                        <li>Worked with front-end teams to build responsive interfaces using Twig and Bootstrap.</li>
+                        <li>Developed custom Drupal modules to support business needs.</li>
+                        <li>Helped optimize load speed and improve content structure.</li>
                     </ul>
                 </div>
+
+                <div class="resume-item">
+                    <h4>School Bus Driver (Part-Time)</h4>
+                    <h5>Sept 2025 - Present</h5>
+                    <p><em>Langs — London, ON</em></p>
+                    <p>
+                        Part-time position while continuing my web development career and studies.
+                    </p>
+                    <ul>
+                        <li>Perform daily vehicle safety inspections.</li>
+                        <li>Ensure safe and timely transportation of students.</li>
+                        <li>Follow safety procedures and school transportation guidelines.</li>
+                    </ul>
+                </div>
+
             </div>
 
         </div>
