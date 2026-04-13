@@ -1,44 +1,118 @@
 #about {
-	background: #f3f6f9;
+    background: #f3f6f9;
+}
+
+#about .section-title {
+    padding-bottom: 40px;
 }
 
 #about .content h3 {
-	font-size: 28px;
-	font-weight: 700;
-	margin-bottom: 15px;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    line-height: 1.2;
 }
 
 #about .content p {
-	margin-bottom: 16px;
+    margin-bottom: 16px;
+    line-height: 1.8;
 }
 
-#about img {
-	border-radius: 12px;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+#about .about-intro {
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+#about img,
+#about .about-profile-img {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#about .about-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 #about .about-info li {
-	margin-bottom: 14px;
-	display: flex;
-	align-items: center;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 #about .about-info i {
-	color: var(--accent-color);
-	margin-right: 8px;
+    color: var(--accent-color);
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+#about .about-info strong {
+    margin-right: 8px;
 }
 
 #about .mini-card {
-	background: #ffffff;
-	border-radius: 12px;
-	padding: 18px 15px;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-	text-align: center;
-	height: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 20px 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    height: 100%;
 }
 
 #about .mini-card h4 {
-	margin-bottom: 6px;
-	font-size: 22px;
-	font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+#about .mini-card p {
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+#about .about-summary {
+    margin-top: 24px;
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+#about .btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+@media (max-width: 991.98px) {
+    #about .content h3 {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    #about img,
+    #about .about-profile-img {
+        max-width: 340px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #about .content h3 {
+        font-size: 26px;
+    }
+
+    #about .about-intro {
+        font-size: 1rem;
+    }
+
+    #about .mini-card {
+        padding: 18px 12px;
+    }
+
+    #about .mini-card h4 {
+        font-size: 24px;
+    }
 }
