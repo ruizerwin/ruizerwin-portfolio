@@ -10,10 +10,7 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 align-items-center">
             <div class="col-lg-4 text-center">
-                <img
-                    src="assets/img/profile-img.jpg"
-                    class="img-fluid about-profile-img"
-                    alt="<?= e('Erwin Padilla profile photo'); ?>">
+                <img src="assets/img/profile-erwin.jpg" class="img-fluid rounded shadow-sm" alt="Erwin Padilla">
             </div>
 
             <div class="col-lg-8 content">
