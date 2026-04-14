@@ -1,17 +1,58 @@
+.navmenu ul {
+    width: 170px;
+}
+
 .navmenu a {
     display: flex;
     align-items: center;
+    gap: 12px;
+    width: 56px;
+    height: 56px;
+    padding: 0 18px;
     overflow: hidden;
     white-space: nowrap;
+    border-radius: 999px;
+    transition:
+        width 0.28s ease,
+        background-color 0.28s ease,
+        box-shadow 0.28s ease,
+        color 0.28s ease;
+}
+
+.navmenu a i {
+    flex-shrink: 0;
 }
 
 .navmenu a span {
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transform: translateX(6px);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
 }
 
-.navmenu a:hover span {
+.navmenu a:hover,
+.navmenu a.active {
+    width: 160px;
+    box-shadow: 0 10px 24px rgba(5, 99, 187, 0.18);
+}
+
+.navmenu a:hover span,
+.navmenu a.active span {
     opacity: 1;
+    transform: translateX(0);
+}
+
+@media (max-width: 991px) {
+    .navmenu a,
+    .navmenu a.active {
+        width: 100%;
+    }
+
+    .navmenu a span {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .scroll-top,
