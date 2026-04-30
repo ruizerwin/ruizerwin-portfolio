@@ -65,7 +65,7 @@ if ($csrfToken === '' || $sessionCsrfToken === '' || !hash_equals($sessionCsrfTo
 $now = time();
 $lastSubmit = (int) ($_SESSION['contact_last_submit'] ?? 0);
 
-if (($now - $lastSubmit) < 300) {
+if (($now - $lastSubmit) < 15) {
     fail_response('STEP 4: Please wait a few seconds before sending another message.', 429);
 }
 
@@ -197,7 +197,6 @@ try {
     $mail->CharSet    = 'UTF-8';
 
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
-    $mail->Sender = SMTP_FROM_EMAIL;
     $mail->addAddress(CONTACT_TO_EMAIL, CONTACT_TO_NAME);
     $mail->addReplyTo($email, $name);
 
