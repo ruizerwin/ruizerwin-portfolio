@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 ?>
 <footer id="footer" class="footer position-relative light-background">
@@ -18,7 +19,7 @@ declare(strict_types=1);
                 <strong class="px-1 sitename">Erwin D Padilla</strong>
                 <span>All Rights Reserved <?= date('Y'); ?></span>
             </div>
-            <div class="credits">Built with PHP 8.2+, Laravel, CodeIgniter & MySQL</div>
+            <div class="credits">Built with PHP 7.0+, Laravel, CodeIgniter & MySQL</div>
         </div>
     </div>
 </footer>
