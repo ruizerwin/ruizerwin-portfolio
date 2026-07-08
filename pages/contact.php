@@ -37,7 +37,7 @@ $recaptchaEnabled = $recaptchaSiteKey !== '';
                         <i class="bi bi-envelope flex-shrink-0"></i>
                         <div>
                             <h3>Email</h3>
-                            <p>ruizerwin@hotmail.com</p>
+                            <p><a href="mailto:ruizerwin@hotmail.com">ruizerwin@hotmail.com</a></p>
                         </div>
                     </div>
 
@@ -45,7 +45,12 @@ $recaptchaEnabled = $recaptchaSiteKey !== '';
                         <i class="bi bi-phone flex-shrink-0"></i>
                         <div>
                             <h3>Call / WhatsApp</h3>
-                            <p>416-505-3876</p>
+                            <p>
+                                <a href="tel:+14165053876">+1 (416) 505-3876</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="https://wa.me/14165053876" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                            </p>
                         </div>
                     </div>
 

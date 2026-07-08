@@ -30,8 +30,9 @@
                     </div>
                     <div>
                         <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
+                        <p class="mb-1"><em><?= e('Post-Graduate Co-op Certificate · GAP5 culmination'); ?></em></p>
                         <p class="mb-2">
-                            <?= e('One-year post-graduate co-op program focused on building systems that analyze big data and convert insights into autonomous tasks.'); ?>
+                            <?= e('One-year program focused on building, managing, and administering systems that analyze big data and convert insights into autonomous tasks. Covers AI, machine learning, and data-driven automation for real-world applications.'); ?>
                         </p>
                         <p class="about-education-meta mb-0">
                             <i class="bi bi-geo-alt"></i> <?= e('London, Ontario, Canada'); ?>

@@ -16,21 +16,6 @@ declare(strict_types=1);
             <?php
             $projects = [
                 [
-                    'title'       => 'ruizerwin.com Portfolio',
-                    'subtitle'    => 'Personal Site / Full-Stack',
-                    'description' => 'Professional portfolio with contact form, CI/CD deployment, reCAPTCHA security, SMTP integration, and AWS Lightsail hosting.',
-                    'results'     => [
-                        'Built with PHP 8+, Composer, PHPMailer, and environment-based configuration.',
-                        'Automated staging and production deployments via GitHub Actions.',
-                        'Responsive design with secure contact workflow and server-side validation.',
-                    ],
-                    'tech'        => ['PHP 8+', 'Bootstrap 5', 'AWS Lightsail', 'GitHub Actions'],
-                    'image'       => 'assets/img/portfolio/y_partners.jpg',
-                    'demo'        => 'https://www.ruizerwin.com',
-                    'details'     => '',
-                    'status'      => 'Live Project',
-                ],
-                [
                     'title'       => 'JBI Internal System',
                     'subtitle'    => 'ERP / Operations Platform',
                     'description' => 'Built internal tools for order flow, RGA, invoices, shipping, reporting, and secure admin operations.',

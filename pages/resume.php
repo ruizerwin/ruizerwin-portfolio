@@ -28,7 +28,7 @@ declare(strict_types=1);
                     </p>
                     <ul>
                         <li>London, ON</li>
-                        <li><a href="tel:+14165053876">416-505-3876</a></li>
+                        <li><a href="tel:+14165053876">+1 (416) 505-3876</a></li>
                         <li><a href="mailto:ruizerwin@hotmail.com">ruizerwin@hotmail.com</a></li>
                         <li><a href="https://www.ruizerwin.com" target="_blank" rel="noopener noreferrer">www.ruizerwin.com</a></li>
                     </ul>
@@ -71,6 +71,7 @@ declare(strict_types=1);
                 <div class="resume-item">
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
                     <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
+                    <p><em>GAP5 culmination</em></p>
                     <p>
                         One-year program focused on building, managing, and administering systems that analyze big data
                         and convert it into autonomous tasks. Covers highly in-demand skills in AI, machine learning,
@@ -92,17 +93,6 @@ declare(strict_types=1);
                 <div class="resume-item">
                     <h4>Computer Networking, Maintenance &amp; Web Development</h4>
                     <p><em>Le&oacute;n, Nicaragua</em></p>
-                </div>
-
-                <h3 class="resume-title">Projects</h3>
-                <div class="resume-item">
-                    <h4>Personal Portfolio &amp; Code Showcase</h4>
-                    <p>
-                        Built with Laravel and Tailwind CSS to demonstrate full-stack capabilities and modern PHP
-                        development practices. Features responsive design, clean architecture, and showcases 17+
-                        years of web development expertise since 2007.
-                    </p>
-                    <p><a href="https://www.ruizerwin.com" target="_blank" rel="noopener noreferrer">www.ruizerwin.com</a></p>
                 </div>
 
             </div>
