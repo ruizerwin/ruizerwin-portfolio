@@ -71,7 +71,6 @@ declare(strict_types=1);
                 <div class="resume-item">
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
                     <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
-                    <p><span class="resume-status-badge">Currently Studying at Fanshawe</span></p>
                     <p>
                         One-year program focused on building, managing, and administering systems that analyze big data
                         and convert it into autonomous tasks. Covers highly in-demand skills in AI, machine learning,
@@ -146,17 +145,6 @@ declare(strict_types=1);
                         <li>Worked with front-end teams to build modern, mobile-friendly interfaces using Twig and Bootstrap.</li>
                         <li>Built custom Drupal modules to support business logic and new system functionality.</li>
                         <li>Reduced load time by 30% through optimization and content-structure improvements.</li>
-                    </ul>
-                </div>
-
-                <div class="resume-item">
-                    <h4>GAP5 English Program &mdash; Level 10</h4>
-                    <h5>Jan 2026 &ndash; Present</h5>
-                    <p><em>Fanshawe College &mdash; London, ON</em></p>
-                    <ul>
-                        <li>Currently studying at Fanshawe College and finalizing GAP5 English Program Level 10.</li>
-                        <li>Part-time studies while continuing web development work.</li>
-                        <li>EAPP-0009-01.</li>
                     </ul>
                 </div>
 

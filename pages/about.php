@@ -29,10 +29,9 @@
                         <i class="bi bi-mortarboard"></i>
                     </div>
                     <div>
-                        <span class="about-education-badge"><?= e('Currently Studying'); ?></span>
-                        <h4><?= e('Fanshawe College — London, ON'); ?></h4>
+                        <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
                         <p class="mb-2">
-                            <?= e('GAP5 English Program Level 10 and enrolled in the one-year AI & Machine Learning post-graduate co-op program starting September 2026.'); ?>
+                            <?= e('One-year post-graduate co-op program focused on building systems that analyze big data and convert insights into autonomous tasks.'); ?>
                         </p>
                         <p class="about-education-meta mb-0">
                             <i class="bi bi-geo-alt"></i> <?= e('London, Ontario, Canada'); ?>
@@ -97,8 +96,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('GAP5'); ?></h4>
-                            <p><?= e('English · Level 10'); ?></p>
+                            <h4><?= e('AI/ML'); ?></h4>
+                            <p><?= e('Post-Graduate'); ?></p>
                         </div>
                     </div>
                 </div>

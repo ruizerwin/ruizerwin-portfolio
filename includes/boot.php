@@ -68,7 +68,7 @@ define('MAIL_INBOX_NAME', $_ENV['MAIL_INBOX_NAME'] ?? $_ENV['CONTACT_TO_NAME'] ?
  * Set these before including head.php when needed.
  */
 $pageTitle = $pageTitle ?? APP_NAME . ' | PHP Developer';
-$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 17+ years since 2007 in Laravel, Drupal, CodeIgniter, MySQL, AWS. Currently studying at Fanshawe College.';
+$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 17+ years since 2007 in Laravel, Drupal, CodeIgniter, MySQL, AWS.';
 $pageKeywords = $pageKeywords ?? 'Ruiz Erwin, PHP Developer, PHP 8.2, Laravel, CodeIgniter, MySQL, SQL, Bootstrap, JavaScript, Web Developer, Portfolio';
 $pageUrl = $pageUrl ?? (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '/'));
 $pageImage = $pageImage ?? 'assets/img/og-image.jpg';
