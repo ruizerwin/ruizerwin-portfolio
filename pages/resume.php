@@ -67,6 +67,19 @@ declare(strict_types=1);
                 </div>
 
                 <h3 class="resume-title">Education</h3>
+
+                <div class="resume-item">
+                    <h4>Artificial Intelligence &amp; Machine Learning</h4>
+                    <h5>Starts September 2026</h5>
+                    <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
+                    <p><span class="resume-status-badge">Accepted</span></p>
+                    <p>
+                        One-year program focused on building, managing, and administering systems that analyze big data
+                        and convert it into autonomous tasks. Covers highly in-demand skills in AI, machine learning,
+                        and data-driven automation.
+                    </p>
+                </div>
+
                 <div class="resume-item">
                     <h4>Bachelor&rsquo;s Degree in Computer Science</h4>
                     <h5>1997 &ndash; 2003</h5>

@@ -3,7 +3,7 @@
     <div class="container section-title" data-aos="fade-up">
         <h2><?= e('About'); ?></h2>
         <p>
-            <?= e('Experienced PHP Web Developer building secure, scalable, and maintainable web applications.'); ?>
+            <?= e('Senior PHP Full-Stack Developer building secure, scalable, and maintainable enterprise web applications.'); ?>
         </p>
     </div>
 
@@ -14,15 +14,31 @@
             </div>
 
             <div class="col-lg-8 content">
-                <h3><?= e('PHP Web Developer'); ?></h3>
+                <h3><?= e('Senior PHP Full-Stack Developer'); ?></h3>
 
                 <p class="fst-italic about-intro">
-                    <?= e('I build modern web applications using PHP, Laravel, Drupal, CodeIgniter, MySQL, Bootstrap, JavaScript, and AWS deployment workflows.'); ?>
+                    <?= e('I design and maintain enterprise web applications using PHP 8+, Laravel, Livewire, CodeIgniter, Drupal, MySQL, SQL Server, Bootstrap, Tailwind CSS, REST APIs, and AWS cloud hosting.'); ?>
                 </p>
 
                 <p>
-                    <?= e('My experience includes backend development, database design, API integration, front-end improvements, and long-term system maintenance.'); ?>
+                    <?= e('My experience spans backend architecture, database design, third-party integrations, performance optimization, and long-term production support for business-critical systems across remote teams in North America.'); ?>
                 </p>
+
+                <div class="about-education-notice">
+                    <div class="about-education-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+                    <div>
+                        <span class="about-education-badge"><?= e('Accepted'); ?></span>
+                        <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
+                        <p class="mb-2">
+                            <?= e('One-year post-graduate co-op program focused on building systems that analyze big data and convert insights into autonomous tasks. Starts September 2026.'); ?>
+                        </p>
+                        <p class="about-education-meta mb-0">
+                            <i class="bi bi-geo-alt"></i> <?= e('London, Ontario, Canada'); ?>
+                        </p>
+                    </div>
+                </div>
 
                 <div class="row mt-4">
                     <div class="col-md-6">
@@ -30,12 +46,12 @@
                             <li>
                                 <i class="bi bi-chevron-right"></i>
                                 <strong><?= e('Name:'); ?></strong>
-                                <span><?= e('Erwin Padilla'); ?></span>
+                                <span><?= e('Erwin D. Padilla'); ?></span>
                             </li>
                             <li>
                                 <i class="bi bi-chevron-right"></i>
                                 <strong><?= e('Role:'); ?></strong>
-                                <span><?= e('PHP Web Developer'); ?></span>
+                                <span><?= e('Senior PHP Full-Stack Developer'); ?></span>
                             </li>
                             <li>
                                 <i class="bi bi-chevron-right"></i>
@@ -50,7 +66,7 @@
                             <li>
                                 <i class="bi bi-chevron-right"></i>
                                 <strong><?= e('Main Stack:'); ?></strong>
-                                <span><?= e('PHP, MySQL, Bootstrap'); ?></span>
+                                <span><?= e('PHP 8+, MySQL, Bootstrap'); ?></span>
                             </li>
                             <li>
                                 <i class="bi bi-chevron-right"></i>
@@ -59,8 +75,8 @@
                             </li>
                             <li>
                                 <i class="bi bi-chevron-right"></i>
-                                <strong><?= e('Other Skills:'); ?></strong>
-                                <span><?= e('JavaScript, REST APIs, AWS'); ?></span>
+                                <strong><?= e('Cloud:'); ?></strong>
+                                <span><?= e('AWS Lightsail, GitHub Actions'); ?></span>
                             </li>
                         </ul>
                     </div>
@@ -69,26 +85,26 @@
                 <div class="row g-3 mt-3">
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('7+'); ?></h4>
+                            <h4><?= e('8+'); ?></h4>
                             <p><?= e('Years Experience'); ?></p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('PHP'); ?></h4>
-                            <p><?= e('Backend Focus'); ?></p>
+                            <h4><?= e('B2B'); ?></h4>
+                            <p><?= e('Enterprise Systems'); ?></p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('AWS'); ?></h4>
-                            <p><?= e('Deployment Workflow'); ?></p>
+                            <h4><?= e('AI/ML'); ?></h4>
+                            <p><?= e('Post-Grad · Sept 2026'); ?></p>
                         </div>
                     </div>
                 </div>
 
                 <p class="about-summary mt-4 mb-0">
-                    <?= e('I combine backend development, database optimization, and production support to build systems that solve real business problems.'); ?>
+                    <?= e('I combine backend engineering, database optimization, and production support to deliver reliable systems — while expanding into artificial intelligence and machine learning.'); ?>
                 </p>
 
                 <div class="mt-4">

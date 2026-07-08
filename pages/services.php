@@ -2,7 +2,7 @@
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Services</h2>
-        <p>Professional services in development, support, and maintenance.</p>
+        <p>Enterprise web development, integration, and production support for growing businesses.</p>
     </div>
 
     <div class="container">
@@ -13,9 +13,9 @@
                     <div class="icon">
                         <i class="bi bi-code-slash"></i>
                     </div>
-                    <h3>Backend Development</h3>
+                    <h3>Full-Stack PHP Development</h3>
                     <p>
-                        Build secure and scalable web applications using PHP 8.2+, Laravel, and CodeIgniter with clean architecture.
+                        Build secure, scalable web applications with PHP 8+, Laravel, Livewire, CodeIgniter, and Drupal using clean, maintainable architecture.
                     </p>
                 </div>
             </div>
@@ -25,9 +25,9 @@
                     <div class="icon">
                         <i class="bi bi-database"></i>
                     </div>
-                    <h3>Database Optimization</h3>
+                    <h3>Database Engineering</h3>
                     <p>
-                        Design and optimize MySQL databases for better structure, faster queries, and reliable data handling.
+                        Design and optimize MySQL and SQL Server databases with stored procedures, indexing strategies, and query performance tuning.
                     </p>
                 </div>
             </div>
@@ -35,11 +35,11 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="service-item item-red">
                     <div class="icon">
-                        <i class="bi bi-tools"></i>
+                        <i class="bi bi-plug"></i>
                     </div>
-                    <h3>Web Maintenance</h3>
+                    <h3>API &amp; Integrations</h3>
                     <p>
-                        Maintain existing websites, fix bugs, improve performance, and keep older systems running smoothly and securely.
+                        Develop REST APIs and connect payment gateways, shipping services, CRM tools, and third-party business platforms.
                     </p>
                 </div>
             </div>
@@ -49,9 +49,9 @@
                     <div class="icon">
                         <i class="bi bi-shield-check"></i>
                     </div>
-                    <h3>Web Security</h3>
+                    <h3>Security &amp; Compliance</h3>
                     <p>
-                        Apply secure coding practices such as input validation, output escaping, session protection, XSS and CSRF prevention, and general system hardening.
+                        Apply secure coding practices including input validation, CSRF/XSS prevention, session hardening, and production-safe error handling.
                     </p>
                 </div>
             </div>
@@ -59,11 +59,11 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="service-item item-pink">
                     <div class="icon">
-                        <i class="bi bi-pc-display"></i>
+                        <i class="bi bi-tools"></i>
                     </div>
-                    <h3>PC Maintenance</h3>
+                    <h3>Maintenance &amp; Support</h3>
                     <p>
-                        Provide computer maintenance, troubleshooting, software setup, hardware support, and general technical assistance.
+                        Maintain legacy and modern PHP systems — bug fixes, performance improvements, feature extensions, and reliable production support.
                     </p>
                 </div>
             </div>
@@ -71,47 +71,11 @@
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
                 <div class="service-item item-teal">
                     <div class="icon">
-                        <i class="bi bi-gear"></i>
-                    </div>
-                    <h3>Deployment &amp; Automation</h3>
-                    <p>
-                        Set up CI/CD pipelines, server environments, and automated deployments for PHP applications.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
-                <div class="service-item item-orange">
-                    <div class="icon">
-                        <i class="bi bi-diagram-3"></i>
-                    </div>
-                    <h3>CI/CD Pipelines</h3>
-                    <p>
-                        Automate deployments using GitHub Actions, SSH workflows, and structured release processes.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="800">
-                <div class="service-item item-cyan">
-                    <div class="icon">
                         <i class="bi bi-cloud"></i>
                     </div>
-                    <h3>AWS Lightsail</h3>
+                    <h3>AWS &amp; DevOps</h3>
                     <p>
-                        Configure and deploy PHP applications with Apache, SSL, domain setup, and production hosting.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="900">
-                <div class="service-item item-indigo">
-                    <div class="icon">
-                        <i class="bi bi-laptop"></i>
-                    </div>
-                    <h3>Environment Setup</h3>
-                    <p>
-                        Prepare local and production environments using WAMP, virtual hosts, Git, SSH, and workflow separation.
+                        Deploy and manage PHP applications on AWS Lightsail with Apache, SSL, GitHub Actions CI/CD, and structured staging/production workflows.
                     </p>
                 </div>
             </div>

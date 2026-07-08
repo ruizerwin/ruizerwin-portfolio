@@ -66,7 +66,7 @@ define('CONTACT_TO_NAME', $_ENV['CONTACT_TO_NAME'] ?? 'Erwin Padilla');
  * Set these before including head.php when needed.
  */
 $pageTitle = $pageTitle ?? APP_NAME . ' | PHP Developer';
-$pageDescription = $pageDescription ?? 'Ruiz Erwin portfolio website. PHP developer specialized in PHP 8.2+, Laravel, CodeIgniter, MySQL, Bootstrap, JavaScript, and modern web application development.';
+$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 8+ years in Laravel, Drupal, CodeIgniter, MySQL, AWS. Accepted into Fanshawe College AI & Machine Learning program.';
 $pageKeywords = $pageKeywords ?? 'Ruiz Erwin, PHP Developer, PHP 8.2, Laravel, CodeIgniter, MySQL, SQL, Bootstrap, JavaScript, Web Developer, Portfolio';
 $pageUrl = $pageUrl ?? (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '/'));
 $pageImage = $pageImage ?? 'assets/img/og-image.jpg';

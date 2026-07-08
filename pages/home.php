@@ -9,38 +9,46 @@
             <div class="col-lg-8 col-xl-7">
                 <div class="hero-content">
 
-                    <span class="hero-badge">PHP Developer • Backend developer • Problem Solver</span>
+                    <span class="hero-badge">Senior PHP Full-Stack Developer &middot; Laravel &middot; Drupal &middot; AWS</span>
 
-                    <h1><?= e('Erwin D Padilla'); ?></h1>
+                    <div class="hero-notice" data-aos="fade-up" data-aos-delay="150">
+                        <i class="bi bi-mortarboard"></i>
+                        <span>
+                            <strong>Accepted</strong> into Fanshawe College&rsquo;s AI &amp; Machine Learning post-graduate program
+                            &mdash; starts <strong>September 2026</strong>
+                        </span>
+                    </div>
+
+                    <h1><?= e('Erwin D. Padilla'); ?></h1>
 
                     <p class="hero-lead">
-                        <?= e('Experienced PHP developer focused on secure systems and practical solutions that help businesses grow.'); ?>
+                        <?= e('Senior PHP developer with 8+ years building enterprise web applications, APIs, and cloud-hosted systems for business-critical operations.'); ?>
                     </p>
 
                     <ul class="hero-benefits">
                         <li>
                             <i class="bi bi-check2"></i>
-                            <span><?= e('Secure & PCI-compliant systems'); ?></span>
+                            <span><?= e('Enterprise PHP, Laravel, CodeIgniter & Drupal'); ?></span>
                         </li>
                         <li>
                             <i class="bi bi-check2"></i>
-                            <span><?= e('High-performance MySQL optimization'); ?></span>
+                            <span><?= e('MySQL & SQL Server optimization'); ?></span>
                         </li>
                         <li>
                             <i class="bi bi-check2"></i>
-                            <span><?= e('Clean, maintainable backend architecture'); ?></span>
+                            <span><?= e('AWS deployment, CI/CD & production support'); ?></span>
                         </li>
                     </ul>
 
                     <div class="hero-typed-wrap">
                         <span class="hero-prefix"><?= e('Specialized in:'); ?></span>
-                        <span class="typed" data-typed-items="PHP 8.2+ Development,Laravel Applications,CodeIgniter Systems,REST API Integration,MySQL Optimization,AWS Deployment"></span>
+                        <span class="typed" data-typed-items="PHP 8+ Development,Laravel & Livewire,REST API Integration,Drupal CMS,AWS Lightsail Deployment,AI & Machine Learning"></span>
                     </div>
 
                     <div class="hero-stats">
                         <div class="hero-stat-item">
-                            <h3><?= e('7+'); ?></h3>
-                            <p><?= e('Years in PHP Development'); ?></p>
+                            <h3><?= e('8+'); ?></h3>
+                            <p><?= e('Years Experience'); ?></p>
                         </div>
                         <div class="hero-stat-item">
                             <h3><?= e('90%'); ?></h3>
@@ -64,7 +72,9 @@
                         <span class="hero-pill"><?= e('MySQL'); ?></span>
                         <span class="hero-pill"><?= e('REST APIs'); ?></span>
                         <span class="hero-pill"><?= e('AWS'); ?></span>
-                        <span class="hero-pill"><?= e('Drupal'); ?></span>
+                        <span class="hero-pill"><?= e('Livewire'); ?></span>
+                        <span class="hero-pill"><?= e('Tailwind CSS'); ?></span>
+                        <span class="hero-pill"><?= e('AI / ML'); ?></span>
                     </div>
 
                     <div class="social-links hero-social-links mt-4">
