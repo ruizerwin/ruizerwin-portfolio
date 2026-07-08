@@ -139,9 +139,11 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
                         </div>
 
                         <div class="col-md-12">
+                            <?php if ($recaptchaSiteKey !== ''): ?>
                             <p class="contact-legal-note mb-0">
                                 This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
                             </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="col-md-12">
@@ -159,115 +161,132 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
 
         </div>
     </div>
-    <?php if (!empty($_GET['sent'])): ?>
-        <div class="alert alert-success">Message sent!</div>
-    <?php endif; ?>
 </section>
 
 <?php if ($recaptchaSiteKey !== ''): ?>
     <script src="https://www.google.com/recaptcha/api.js?render=<?= rawurlencode($recaptchaSiteKey); ?>"></script>
-    <script>
-        (function() {
-            const form = document.getElementById('contactForm');
-            const tokenField = document.getElementById('g-recaptcha-response');
-            const submitBtn = document.getElementById('contactSubmitBtn');
-            const recaptchaSiteKey = <?= json_encode($recaptchaSiteKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>;
+<?php endif; ?>
+<script>
+    (function() {
+        const form = document.getElementById('contactForm');
+        const tokenField = document.getElementById('g-recaptcha-response');
+        const submitBtn = document.getElementById('contactSubmitBtn');
+        const recaptchaSiteKey = <?= json_encode($recaptchaSiteKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>;
 
-            if (!form || !tokenField || !submitBtn || !window.grecaptcha) {
-                return;
+        if (!form || !submitBtn) {
+            return;
+        }
+
+        const loading = form.querySelector('.loading');
+        const errorBox = form.querySelector('.error-message');
+        const successBox = form.querySelector('.sent-message');
+
+        function hideMessages() {
+            if (loading) {
+                loading.style.display = 'none';
             }
 
-            const loading = form.querySelector('.loading');
-            const errorBox = form.querySelector('.error-message');
-            const successBox = form.querySelector('.sent-message');
+            if (errorBox) {
+                errorBox.style.display = 'none';
+                errorBox.textContent = '';
+            }
 
-            function hideMessages() {
-                if (loading) {
-                    loading.style.display = 'none';
-                }
+            if (successBox) {
+                successBox.style.display = 'none';
+            }
+        }
 
-                if (errorBox) {
-                    errorBox.style.display = 'none';
-                    errorBox.textContent = '';
-                }
+        function sendForm() {
+            return fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            }).then(function(response) {
+                return response.text().then(function(text) {
+                    return {
+                        ok: response.ok,
+                        text: text.trim()
+                    };
+                });
+            });
+        }
 
+        function handleResult(result) {
+            if (loading) {
+                loading.style.display = 'none';
+            }
+
+            submitBtn.disabled = false;
+
+            if (!result.ok) {
+                throw new Error(result.text || 'Unable to send your message right now.');
+            }
+
+            if (result.text !== 'OK') {
+                throw new Error(result.text || 'Unexpected server response.');
+            }
+
+            form.reset();
+
+            if (tokenField) {
+                tokenField.value = '';
+            }
+
+            if (successBox) {
+                successBox.style.display = 'block';
+            }
+
+            setTimeout(function() {
                 if (successBox) {
                     successBox.style.display = 'none';
                 }
+            }, 5000);
+        }
+
+        function handleError(error) {
+            if (loading) {
+                loading.style.display = 'none';
             }
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                hideMessages();
+            submitBtn.disabled = false;
 
-                if (loading) {
-                    loading.style.display = 'block';
-                }
+            if (errorBox) {
+                errorBox.style.display = 'block';
+                errorBox.textContent = error.message || 'Something went wrong. Please try again.';
+            }
+        }
 
-                submitBtn.disabled = true;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            hideMessages();
 
+            if (loading) {
+                loading.style.display = 'block';
+            }
+
+            submitBtn.disabled = true;
+
+            if (recaptchaSiteKey && window.grecaptcha) {
                 grecaptcha.ready(function() {
                     grecaptcha.execute(recaptchaSiteKey, {
                             action: 'contact_form'
                         })
                         .then(function(token) {
-                            tokenField.value = token;
+                            if (tokenField) {
+                                tokenField.value = token;
+                            }
 
-                            return fetch(form.action, {
-                                method: 'POST',
-                                body: new FormData(form)
-                            });
+                            return sendForm();
                         })
-                        .then(function(response) {
-                            return response.text().then(function(text) {
-                                return {
-                                    ok: response.ok,
-                                    text: text.trim()
-                                };
-                            });
-                        })
-                        .then(function(result) {
-                            if (loading) {
-                                loading.style.display = 'none';
-                            }
-
-                            submitBtn.disabled = false;
-
-                            if (!result.ok) {
-                                throw new Error(result.text || 'Unable to send your message right now.');
-                            }
-
-                            if (result.text !== 'OK') {
-                                throw new Error(result.text || 'Unexpected server response.');
-                            }
-
-                            form.reset();
-                            tokenField.value = '';
-
-                            if (successBox) {
-                                successBox.style.display = 'block';
-                            }
-
-                            setTimeout(function() {
-                                if (successBox) {
-                                    successBox.style.display = 'none';
-                                }
-                            }, 5000);
-                        })
-                        .catch(function(error) {
-                            if (loading) {
-                                loading.style.display = 'none';
-                            }
-
-                            submitBtn.disabled = false;
-
-                            if (errorBox) {
-                                errorBox.style.display = 'block';
-                                errorBox.textContent = error.message || 'Something went wrong. Please try again.';
-                            }
-                        });
+                        .then(handleResult)
+                        .catch(handleError);
                 });
-            });
-        })();
-    </script>
-<?php endif; ?>
+
+                return;
+            }
+
+            sendForm()
+                .then(handleResult)
+                .catch(handleError);
+        });
+    })();
+</script>

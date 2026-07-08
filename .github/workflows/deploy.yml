@@ -40,6 +40,11 @@ jobs:
             git fetch origin
             git checkout ${{ github.ref_name }}
             git reset --hard origin/${{ github.ref_name }}
+            if command -v composer >/dev/null 2>&1; then
+              composer install --no-dev --optimize-autoloader --no-interaction
+            else
+              echo "Warning: composer not found on server. Run 'composer install' manually."
+            fi
 
       - name: Fix permissions
         uses: appleboy/ssh-action@v1.0.3

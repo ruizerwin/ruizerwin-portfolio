@@ -9,10 +9,14 @@ require_once dirname(__DIR__) . '/includes/boot.php';
 
 header('Content-Type: text/plain; charset=UTF-8');
 
-function fail_response(string $message, int $status = 422): never
+function fail_response(string $userMessage, int $status = 422, ?string $logDetail = null): never
 {
+    if ($logDetail !== null) {
+        error_log('Contact form: ' . $logDetail);
+    }
+
     http_response_code($status);
-    exit($message);
+    exit($userMessage);
 }
 
 function clean_text(?string $value, int $maxLength = 255): string
@@ -34,8 +38,19 @@ function client_ip(): string
     return (string) ($_SERVER['REMOTE_ADDR'] ?? '');
 }
 
+function smtp_encryption(): string
+{
+    $encryption = strtolower((string) (defined('SMTP_ENCRYPTION') ? SMTP_ENCRYPTION : 'ssl'));
+
+    return match ($encryption) {
+        'tls', 'starttls' => PHPMailer::ENCRYPTION_STARTTLS,
+        'none', ''       => '',
+        default          => PHPMailer::ENCRYPTION_SMTPS,
+    };
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    fail_response('STEP 1: Invalid request method.', 405);
+    fail_response('Invalid request method.', 405, 'Invalid request method');
 }
 
 /*
@@ -48,13 +63,14 @@ $sessionCsrfToken = (string) ($_SESSION['csrf_token'] ?? '');
 $honeypot         = trim((string) ($_POST['company_website'] ?? ''));
 $recaptchaToken   = trim((string) ($_POST['g-recaptcha-response'] ?? ''));
 $recaptchaAction  = trim((string) ($_POST['recaptcha_action'] ?? ''));
+$recaptchaEnabled = defined('CONTACT_RECAPTCHA_SECRET_KEY') && CONTACT_RECAPTCHA_SECRET_KEY !== '';
 
 if ($honeypot !== '') {
-    fail_response('STEP 2: Spam detected.', 400);
+    fail_response('Unable to send your message. Please try again.', 400, 'Honeypot triggered');
 }
 
 if ($csrfToken === '' || $sessionCsrfToken === '' || !hash_equals($sessionCsrfToken, $csrfToken)) {
-    fail_response('STEP 3: Security validation failed. Please refresh and try again.', 400);
+    fail_response('Security validation failed. Please refresh the page and try again.', 400, 'CSRF validation failed');
 }
 
 /*
@@ -66,7 +82,7 @@ $now = time();
 $lastSubmit = (int) ($_SESSION['contact_last_submit'] ?? 0);
 
 if (($now - $lastSubmit) < 15) {
-    fail_response('STEP 4: Please wait a few seconds before sending another message.', 429);
+    fail_response('Please wait a few seconds before sending another message.', 429, 'Rate limit exceeded');
 }
 
 /*
@@ -80,85 +96,85 @@ $subject = clean_text($_POST['subject'] ?? '', 150);
 $message = clean_message($_POST['message'] ?? '', 3000);
 
 if ($name === '' || mb_strlen($name) < 2) {
-    fail_response('STEP 5: Please enter a valid name.');
+    fail_response('Please enter a valid name.');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    fail_response('STEP 6: Please enter a valid email address.');
+    fail_response('Please enter a valid email address.');
 }
 
 if ($subject === '' || mb_strlen($subject) < 3) {
-    fail_response('STEP 7: Please enter a valid subject.');
+    fail_response('Please enter a valid subject.');
 }
 
 if ($message === '' || mb_strlen($message) < 10) {
-    fail_response('STEP 8: Please enter a valid message.');
+    fail_response('Please enter a valid message.');
 }
 
 /*
 |--------------------------------------------------------------------------
-| reCAPTCHA v3 verification
+| reCAPTCHA v3 verification (only when configured)
 |--------------------------------------------------------------------------
 */
-if (!defined('CONTACT_RECAPTCHA_SECRET_KEY') || CONTACT_RECAPTCHA_SECRET_KEY === '') {
-    fail_response('STEP 9: reCAPTCHA secret key is missing.', 500);
-}
+$captchaScore = '';
 
-if ($recaptchaToken === '') {
-    fail_response('STEP 10: Security verification token is missing.');
-}
+if ($recaptchaEnabled) {
+    if ($recaptchaToken === '') {
+        fail_response('Security verification failed. Please refresh the page and try again.', 400, 'Missing reCAPTCHA token');
+    }
 
-if ($recaptchaAction !== 'contact_form') {
-    fail_response('STEP 11: Invalid security action.', 400);
-}
+    if ($recaptchaAction !== 'contact_form') {
+        fail_response('Security verification failed. Please try again.', 400, 'Invalid reCAPTCHA action');
+    }
 
-$verifyPostData = http_build_query([
-    'secret'   => CONTACT_RECAPTCHA_SECRET_KEY,
-    'response' => $recaptchaToken,
-    'remoteip' => client_ip(),
-]);
+    $verifyPostData = http_build_query([
+        'secret'   => CONTACT_RECAPTCHA_SECRET_KEY,
+        'response' => $recaptchaToken,
+        'remoteip' => client_ip(),
+    ]);
 
-$ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+    $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
 
-curl_setopt_array($ch, [
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => $verifyPostData,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 15,
-]);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $verifyPostData,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+    ]);
 
-$verifyResult = curl_exec($ch);
-$curlError = curl_error($ch);
-$httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $verifyResult = curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-curl_close($ch);
+    curl_close($ch);
 
-if ($verifyResult === false || $curlError !== '') {
-    error_log('reCAPTCHA curl error: ' . $curlError);
-    fail_response('STEP 12: Unable to verify reCAPTCHA. cURL error: ' . $curlError, 500);
-}
+    if ($verifyResult === false || $curlError !== '') {
+        fail_response('Unable to verify your submission. Please try again later.', 500, 'reCAPTCHA cURL error: ' . $curlError);
+    }
 
-if ($httpCode !== 200) {
-    error_log('reCAPTCHA HTTP code: ' . (string) $httpCode . ' body: ' . (string) $verifyResult);
-    fail_response('STEP 13: Unable to verify reCAPTCHA. HTTP code: ' . (string) $httpCode, 500);
-}
+    if ($httpCode !== 200) {
+        fail_response('Unable to verify your submission. Please try again later.', 500, 'reCAPTCHA HTTP code: ' . (string) $httpCode);
+    }
 
-$captchaData = json_decode((string) $verifyResult, true);
+    $captchaData = json_decode((string) $verifyResult, true);
 
-if (!is_array($captchaData)) {
-    fail_response('STEP 14: Invalid reCAPTCHA response.', 500);
-}
+    if (!is_array($captchaData)) {
+        fail_response('Unable to verify your submission. Please try again later.', 500, 'Invalid reCAPTCHA response');
+    }
 
-if (empty($captchaData['success'])) {
-    fail_response('STEP 15: reCAPTCHA verification failed.', 400);
-}
+    if (empty($captchaData['success'])) {
+        fail_response('Security verification failed. Please try again.', 400, 'reCAPTCHA verification failed');
+    }
 
-if ((string) ($captchaData['action'] ?? '') !== 'contact_form') {
-    fail_response('STEP 16: reCAPTCHA action mismatch.', 400);
-}
+    if ((string) ($captchaData['action'] ?? '') !== 'contact_form') {
+        fail_response('Security verification failed. Please try again.', 400, 'reCAPTCHA action mismatch');
+    }
 
-if ((float) ($captchaData['score'] ?? 0) < 0.5) {
-    fail_response('STEP 17: reCAPTCHA score too low: ' . (string) ($captchaData['score'] ?? '0'), 400);
+    $captchaScore = (string) ($captchaData['score'] ?? '');
+
+    if ((float) ($captchaData['score'] ?? 0) < 0.5) {
+        fail_response('Your message could not be sent. Please try again later.', 400, 'reCAPTCHA score too low: ' . $captchaScore);
+    }
 }
 
 /*
@@ -176,7 +192,11 @@ if (
     !defined('CONTACT_TO_EMAIL') ||
     !defined('CONTACT_TO_NAME')
 ) {
-    fail_response('STEP 18: Mail configuration is incomplete.', 500);
+    fail_response('The contact form is temporarily unavailable. Please try again later.', 500, 'Mail configuration is incomplete');
+}
+
+if (SMTP_PASSWORD === '') {
+    fail_response('The contact form is temporarily unavailable. Please try again later.', 500, 'SMTP password is empty');
 }
 
 /*
@@ -193,8 +213,12 @@ try {
     $mail->Username   = SMTP_USERNAME;
     $mail->Password   = SMTP_PASSWORD;
     $mail->Port       = (int) SMTP_PORT;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->CharSet    = 'UTF-8';
+
+    $encryption = smtp_encryption();
+    if ($encryption !== '') {
+        $mail->SMTPSecure = $encryption;
+    }
 
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
     $mail->addAddress(CONTACT_TO_EMAIL, CONTACT_TO_NAME);
@@ -210,7 +234,11 @@ try {
     $body[] = 'Email: ' . $email;
     $body[] = 'Subject: ' . $subject;
     $body[] = 'IP: ' . client_ip();
-    $body[] = 'reCAPTCHA score: ' . (string) ($captchaData['score'] ?? '');
+
+    if ($recaptchaEnabled) {
+        $body[] = 'reCAPTCHA score: ' . $captchaScore;
+    }
+
     $body[] = '';
     $body[] = 'Message:';
     $body[] = $message;
@@ -224,6 +252,5 @@ try {
 
     exit('OK');
 } catch (Exception $e) {
-    error_log('Contact form mail error: ' . $e->getMessage());
-    fail_response('STEP 19: Mailer error: ' . $e->getMessage(), 500);
+    fail_response('Unable to send your message right now. Please try again later.', 500, 'Mailer error: ' . $e->getMessage());
 }

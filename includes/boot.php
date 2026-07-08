@@ -8,10 +8,18 @@ $projectRoot = dirname(__DIR__);
 $autoloadFile = $projectRoot . '/vendor/autoload.php';
 $envFile = $projectRoot . '/.env';
 
-// TEMP while debugging
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
+$appEnv = $_ENV['APP_ENV'] ?? 'production';
+
+if (in_array($appEnv, ['local', 'development'], true)) {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+} else {
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+}
+
 error_reporting(E_ALL);
+ini_set('log_errors', '1');
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -44,6 +52,7 @@ define('SMTP_HOST', $_ENV['SMTP_HOST'] ?? 'smtp.zohocloud.ca');
 define('SMTP_PORT', (int) ($_ENV['SMTP_PORT'] ?? 465));
 define('SMTP_USERNAME', $_ENV['SMTP_USERNAME'] ?? 'contact@ruizerwin.com');
 define('SMTP_PASSWORD', $_ENV['SMTP_PASSWORD'] ?? '');
+define('SMTP_ENCRYPTION', $_ENV['SMTP_ENCRYPTION'] ?? 'ssl');
 
 define('SMTP_FROM_EMAIL', $_ENV['SMTP_FROM_EMAIL'] ?? 'contact@ruizerwin.com');
 define('SMTP_FROM_NAME', $_ENV['SMTP_FROM_NAME'] ?? APP_NAME);
