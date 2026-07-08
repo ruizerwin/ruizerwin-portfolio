@@ -11,15 +11,6 @@
 
                     <span class="hero-badge">Senior PHP Full-Stack Developer &middot; Laravel &middot; Drupal &middot; AWS</span>
 
-                    <div class="hero-notice" data-aos="fade-up" data-aos-delay="150">
-                        <i class="bi bi-mortarboard"></i>
-                        <span>
-                            <strong>Currently studying at Fanshawe College</strong>
-                            &mdash; finalizing GAP5 English Program Level 10.
-                            AI &amp; Machine Learning post-graduate program starts <strong>September 2026</strong>.
-                        </span>
-                    </div>
-
                     <h1><?= e('Erwin D. Padilla'); ?></h1>
 
                     <p class="hero-lead">

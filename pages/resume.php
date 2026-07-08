@@ -70,7 +70,6 @@ declare(strict_types=1);
 
                 <div class="resume-item">
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
-                    <h5>Starts September 2026</h5>
                     <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
                     <p><span class="resume-status-badge">Currently Studying at Fanshawe</span></p>
                     <p>
