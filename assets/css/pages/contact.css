@@ -79,6 +79,15 @@
 	color: #6c757d;
 }
 
+.contact-legal-note a {
+	color: var(--accent-color);
+	text-decoration: underline;
+}
+
+.contact-legal-note a:hover {
+	color: #044a8a;
+}
+
 .grecaptcha-badge {
 	visibility: visible !important;
 }

@@ -8,7 +8,8 @@ if (empty($_SESSION['csrf_token'])) {
 
 $csrfToken = (string) $_SESSION['csrf_token'];
 
-$recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_RECAPTCHA_SITE_KEY : '';
+$recaptchaSiteKey = defined('RECAPTCHA_V3_SITE_KEY') ? (string) RECAPTCHA_V3_SITE_KEY : '';
+$recaptchaEnabled = $recaptchaSiteKey !== '';
 ?>
 
 <section id="contact" class="contact section">
@@ -52,7 +53,13 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
                         <i class="bi bi-shield-check flex-shrink-0"></i>
                         <div>
                             <h3>Secure Contact</h3>
-                            <p>Protected with server-side validation, CSRF token, honeypot, and background spam protection.</p>
+                            <p>
+                                <?php if ($recaptchaEnabled): ?>
+                                    Protected with reCAPTCHA v3, server-side validation, CSRF token, and honeypot spam filtering.
+                                <?php else: ?>
+                                    Protected with server-side validation, CSRF token, and honeypot spam filtering.
+                                <?php endif; ?>
+                            </p>
                         </div>
                     </div>
 
@@ -139,9 +146,17 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
                         </div>
 
                         <div class="col-md-12">
-                            <?php if ($recaptchaSiteKey !== ''): ?>
+                            <?php if ($recaptchaEnabled): ?>
                             <p class="contact-legal-note mb-0">
-                                This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+                                This site is protected by reCAPTCHA and the Google
+                                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                                and
+                                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                                apply.
+                            </p>
+                            <?php else: ?>
+                            <p class="contact-legal-note mb-0">
+                                Messages are protected with server-side validation, CSRF token, and honeypot spam filtering.
                             </p>
                             <?php endif; ?>
                         </div>
@@ -163,8 +178,8 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
     </div>
 </section>
 
-<?php if ($recaptchaSiteKey !== ''): ?>
-    <script src="https://www.google.com/recaptcha/api.js?render=<?= rawurlencode($recaptchaSiteKey); ?>"></script>
+<?php if ($recaptchaEnabled): ?>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= rawurlencode($recaptchaSiteKey); ?>" async defer></script>
 <?php endif; ?>
 <script>
     (function() {
@@ -255,6 +270,54 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
             }
         }
 
+        function waitForRecaptcha(maxAttempts) {
+            return new Promise(function(resolve, reject) {
+                if (!recaptchaSiteKey) {
+                    resolve();
+                    return;
+                }
+
+                let attempts = 0;
+
+                function check() {
+                    if (window.grecaptcha && typeof window.grecaptcha.execute === 'function') {
+                        window.grecaptcha.ready(resolve);
+                        return;
+                    }
+
+                    attempts += 1;
+
+                    if (attempts >= maxAttempts) {
+                        reject(new Error('Security verification failed to load. Please refresh the page and try again.'));
+                        return;
+                    }
+
+                    setTimeout(check, 100);
+                }
+
+                check();
+            });
+        }
+
+        function submitWithRecaptcha() {
+            return waitForRecaptcha(100).then(function() {
+                if (!recaptchaSiteKey) {
+                    return sendForm();
+                }
+
+                return window.grecaptcha.execute(recaptchaSiteKey, {
+                        action: 'contact_form'
+                    })
+                    .then(function(token) {
+                        if (tokenField) {
+                            tokenField.value = token;
+                        }
+
+                        return sendForm();
+                    });
+            });
+        }
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             hideMessages();
@@ -265,26 +328,7 @@ $recaptchaSiteKey = defined('CONTACT_RECAPTCHA_SITE_KEY') ? (string) CONTACT_REC
 
             submitBtn.disabled = true;
 
-            if (recaptchaSiteKey && window.grecaptcha) {
-                grecaptcha.ready(function() {
-                    grecaptcha.execute(recaptchaSiteKey, {
-                            action: 'contact_form'
-                        })
-                        .then(function(token) {
-                            if (tokenField) {
-                                tokenField.value = token;
-                            }
-
-                            return sendForm();
-                        })
-                        .then(handleResult)
-                        .catch(handleError);
-                });
-
-                return;
-            }
-
-            sendForm()
+            submitWithRecaptcha()
                 .then(handleResult)
                 .catch(handleError);
         });

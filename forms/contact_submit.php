@@ -40,7 +40,7 @@ function client_ip(): string
 
 function smtp_encryption(): string
 {
-    $encryption = strtolower((string) (defined('SMTP_ENCRYPTION') ? SMTP_ENCRYPTION : 'ssl'));
+    $encryption = strtolower((string) (defined('ZOHO_SMTP_ENCRYPTION') ? ZOHO_SMTP_ENCRYPTION : 'ssl'));
 
     return match ($encryption) {
         'tls', 'starttls' => PHPMailer::ENCRYPTION_STARTTLS,
@@ -63,7 +63,7 @@ $sessionCsrfToken = (string) ($_SESSION['csrf_token'] ?? '');
 $honeypot         = trim((string) ($_POST['company_website'] ?? ''));
 $recaptchaToken   = trim((string) ($_POST['g-recaptcha-response'] ?? ''));
 $recaptchaAction  = trim((string) ($_POST['recaptcha_action'] ?? ''));
-$recaptchaEnabled = defined('CONTACT_RECAPTCHA_SECRET_KEY') && CONTACT_RECAPTCHA_SECRET_KEY !== '';
+$recaptchaEnabled = defined('RECAPTCHA_V3_SECRET_KEY') && RECAPTCHA_V3_SECRET_KEY !== '';
 
 if ($honeypot !== '') {
     fail_response('Unable to send your message. Please try again.', 400, 'Honeypot triggered');
@@ -128,7 +128,7 @@ if ($recaptchaEnabled) {
     }
 
     $verifyPostData = http_build_query([
-        'secret'   => CONTACT_RECAPTCHA_SECRET_KEY,
+        'secret'   => RECAPTCHA_V3_SECRET_KEY,
         'response' => $recaptchaToken,
         'remoteip' => client_ip(),
     ]);
@@ -183,20 +183,20 @@ if ($recaptchaEnabled) {
 |--------------------------------------------------------------------------
 */
 if (
-    !defined('SMTP_HOST') ||
-    !defined('SMTP_PORT') ||
-    !defined('SMTP_USERNAME') ||
-    !defined('SMTP_PASSWORD') ||
-    !defined('SMTP_FROM_EMAIL') ||
-    !defined('SMTP_FROM_NAME') ||
-    !defined('CONTACT_TO_EMAIL') ||
-    !defined('CONTACT_TO_NAME')
+    !defined('ZOHO_SMTP_HOST') ||
+    !defined('ZOHO_SMTP_PORT') ||
+    !defined('ZOHO_SMTP_USER') ||
+    !defined('ZOHO_APP_PASSWORD') ||
+    !defined('MAIL_FROM_ADDRESS') ||
+    !defined('MAIL_FROM_NAME') ||
+    !defined('MAIL_INBOX_ADDRESS') ||
+    !defined('MAIL_INBOX_NAME')
 ) {
     fail_response('The contact form is temporarily unavailable. Please try again later.', 500, 'Mail configuration is incomplete');
 }
 
-if (SMTP_PASSWORD === '') {
-    fail_response('The contact form is temporarily unavailable. Please try again later.', 500, 'SMTP password is empty');
+if (ZOHO_APP_PASSWORD === '') {
+    fail_response('The contact form is temporarily unavailable. Please try again later.', 500, 'Zoho app password is empty');
 }
 
 /*
@@ -208,11 +208,11 @@ try {
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host       = SMTP_HOST;
+    $mail->Host       = ZOHO_SMTP_HOST;
     $mail->SMTPAuth   = true;
-    $mail->Username   = SMTP_USERNAME;
-    $mail->Password   = SMTP_PASSWORD;
-    $mail->Port       = (int) SMTP_PORT;
+    $mail->Username   = ZOHO_SMTP_USER;
+    $mail->Password   = ZOHO_APP_PASSWORD;
+    $mail->Port       = (int) ZOHO_SMTP_PORT;
     $mail->CharSet    = 'UTF-8';
 
     $encryption = smtp_encryption();
@@ -220,8 +220,8 @@ try {
         $mail->SMTPSecure = $encryption;
     }
 
-    $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
-    $mail->addAddress(CONTACT_TO_EMAIL, CONTACT_TO_NAME);
+    $mail->setFrom(MAIL_FROM_ADDRESS, MAIL_FROM_NAME);
+    $mail->addAddress(MAIL_INBOX_ADDRESS, MAIL_INBOX_NAME);
     $mail->addReplyTo($email, $name);
 
     $mail->Subject = '[Portfolio Contact] ' . $subject;

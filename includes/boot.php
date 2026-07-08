@@ -43,30 +43,30 @@ if (is_file($envFile)) {
 define('APP_NAME', $_ENV['APP_NAME'] ?? 'ruizerwin');
 define('APP_URL', rtrim($_ENV['APP_URL'] ?? 'https://ruizerwin.com', '/'));
 
-// reCAPTCHA
-define('CONTACT_RECAPTCHA_SITE_KEY', $_ENV['CONTACT_RECAPTCHA_SITE_KEY'] ?? '');
-define('CONTACT_RECAPTCHA_SECRET_KEY', $_ENV['CONTACT_RECAPTCHA_SECRET_KEY'] ?? '');
+// reCAPTCHA v3
+define('RECAPTCHA_V3_SITE_KEY', $_ENV['RECAPTCHA_V3_SITE_KEY'] ?? '');
+define('RECAPTCHA_V3_SECRET_KEY', $_ENV['RECAPTCHA_V3_SECRET_KEY'] ?? '');
 
-// SMTP
-define('SMTP_HOST', $_ENV['SMTP_HOST'] ?? 'smtp.zohocloud.ca');
-define('SMTP_PORT', (int) ($_ENV['SMTP_PORT'] ?? 465));
-define('SMTP_USERNAME', $_ENV['SMTP_USERNAME'] ?? 'contact@ruizerwin.com');
-define('SMTP_PASSWORD', $_ENV['SMTP_PASSWORD'] ?? '');
-define('SMTP_ENCRYPTION', $_ENV['SMTP_ENCRYPTION'] ?? 'ssl');
+// Zoho Mail SMTP
+define('ZOHO_SMTP_HOST', $_ENV['ZOHO_SMTP_HOST'] ?? 'smtp.zohocloud.ca');
+define('ZOHO_SMTP_PORT', (int) ($_ENV['ZOHO_SMTP_PORT'] ?? 465));
+define('ZOHO_SMTP_USER', $_ENV['ZOHO_SMTP_USER'] ?? 'contact@ruizerwin.com');
+define('ZOHO_APP_PASSWORD', $_ENV['ZOHO_APP_PASSWORD'] ?? '');
+define('ZOHO_SMTP_ENCRYPTION', $_ENV['ZOHO_SMTP_ENCRYPTION'] ?? 'ssl');
 
-define('SMTP_FROM_EMAIL', $_ENV['SMTP_FROM_EMAIL'] ?? 'contact@ruizerwin.com');
-define('SMTP_FROM_NAME', $_ENV['SMTP_FROM_NAME'] ?? APP_NAME);
+define('MAIL_FROM_ADDRESS', $_ENV['MAIL_FROM_ADDRESS'] ?? 'contact@ruizerwin.com');
+define('MAIL_FROM_NAME', $_ENV['MAIL_FROM_NAME'] ?? APP_NAME);
 
-// contact destination
-define('CONTACT_TO_EMAIL', $_ENV['CONTACT_TO_EMAIL'] ?? 'ruizerwin1@gmail.com');
-define('CONTACT_TO_NAME', $_ENV['CONTACT_TO_NAME'] ?? 'Erwin Padilla');
+// Contact form inbox
+define('MAIL_INBOX_ADDRESS', $_ENV['MAIL_INBOX_ADDRESS'] ?? 'ruizerwin1@gmail.com');
+define('MAIL_INBOX_NAME', $_ENV['MAIL_INBOX_NAME'] ?? 'Erwin Padilla');
 
 /**
  * Optional dynamic values
  * Set these before including head.php when needed.
  */
 $pageTitle = $pageTitle ?? APP_NAME . ' | PHP Developer';
-$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 8+ years in Laravel, Drupal, CodeIgniter, MySQL, AWS. Accepted into Fanshawe College AI & Machine Learning program.';
+$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 17+ years since 2007 in Laravel, Drupal, CodeIgniter, MySQL, AWS. Currently studying at Fanshawe College.';
 $pageKeywords = $pageKeywords ?? 'Ruiz Erwin, PHP Developer, PHP 8.2, Laravel, CodeIgniter, MySQL, SQL, Bootstrap, JavaScript, Web Developer, Portfolio';
 $pageUrl = $pageUrl ?? (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '/'));
 $pageImage = $pageImage ?? 'assets/img/og-image.jpg';

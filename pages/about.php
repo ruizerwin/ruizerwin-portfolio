@@ -29,10 +29,10 @@
                         <i class="bi bi-mortarboard"></i>
                     </div>
                     <div>
-                        <span class="about-education-badge"><?= e('Accepted'); ?></span>
-                        <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
+                        <span class="about-education-badge"><?= e('Currently Studying'); ?></span>
+                        <h4><?= e('Fanshawe College — London, ON'); ?></h4>
                         <p class="mb-2">
-                            <?= e('One-year post-graduate co-op program focused on building systems that analyze big data and convert insights into autonomous tasks. Starts September 2026.'); ?>
+                            <?= e('Finalizing GAP5 English Program Level 10. Accepted into the one-year AI & Machine Learning post-graduate co-op program starting September 2026.'); ?>
                         </p>
                         <p class="about-education-meta mb-0">
                             <i class="bi bi-geo-alt"></i> <?= e('London, Ontario, Canada'); ?>
@@ -85,8 +85,8 @@
                 <div class="row g-3 mt-3">
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('8+'); ?></h4>
-                            <p><?= e('Years Experience'); ?></p>
+                            <h4><?= e('17+'); ?></h4>
+                            <p><?= e('Years Since 2007'); ?></p>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -97,8 +97,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="about-mini-card">
-                            <h4><?= e('AI/ML'); ?></h4>
-                            <p><?= e('Post-Grad · Sept 2026'); ?></p>
+                            <h4><?= e('GAP5'); ?></h4>
+                            <p><?= e('English · Level 10'); ?></p>
                         </div>
                     </div>
                 </div>

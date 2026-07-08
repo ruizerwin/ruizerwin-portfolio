@@ -14,15 +14,16 @@
                     <div class="hero-notice" data-aos="fade-up" data-aos-delay="150">
                         <i class="bi bi-mortarboard"></i>
                         <span>
-                            <strong>Accepted</strong> into Fanshawe College&rsquo;s AI &amp; Machine Learning post-graduate program
-                            &mdash; starts <strong>September 2026</strong>
+                            <strong>Currently studying at Fanshawe College</strong>
+                            &mdash; finalizing GAP5 English Program Level 10.
+                            AI &amp; Machine Learning post-graduate program starts <strong>September 2026</strong>.
                         </span>
                     </div>
 
                     <h1><?= e('Erwin D. Padilla'); ?></h1>
 
                     <p class="hero-lead">
-                        <?= e('Senior PHP developer with 8+ years building enterprise web applications, APIs, and cloud-hosted systems for business-critical operations.'); ?>
+                        <?= e('Senior PHP developer with 17+ years (since 2007) building web applications, APIs, and cloud-hosted systems on PHP, Linux, Bootstrap, and Windows environments.'); ?>
                     </p>
 
                     <ul class="hero-benefits">
@@ -47,8 +48,8 @@
 
                     <div class="hero-stats">
                         <div class="hero-stat-item">
-                            <h3><?= e('8+'); ?></h3>
-                            <p><?= e('Years Experience'); ?></p>
+                            <h3><?= e('17+'); ?></h3>
+                            <p><?= e('Years Since 2007'); ?></p>
                         </div>
                         <div class="hero-stat-item">
                             <h3><?= e('90%'); ?></h3>

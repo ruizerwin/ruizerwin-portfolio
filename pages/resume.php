@@ -6,7 +6,7 @@ declare(strict_types=1);
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Resume</h2>
-        <p>Senior PHP Full-Stack Developer with 8+ years of enterprise web application experience.</p>
+        <p>Senior PHP Full-Stack Developer with 17+ years of web development experience since 2007.</p>
     </div>
 
     <div class="container">
@@ -19,7 +19,7 @@ declare(strict_types=1);
                     <h4>Erwin D. Padilla</h4>
                     <p><em>Senior PHP Full-Stack Developer | Laravel, Drupal, AWS</em></p>
                     <p class="resume-summary">
-                        Senior PHP Full-Stack Developer with 8+ years of experience designing, developing, and
+                        Senior PHP Full-Stack Developer with 17+ years of experience since 2007 designing, developing, and
                         maintaining enterprise web applications in Laravel, Livewire, CodeIgniter, Drupal, PHP 8+,
                         MySQL, SQL Server, JavaScript, Bootstrap, Tailwind CSS, REST APIs, and AWS cloud
                         hosting. Optimizing application performance, integrating third-party services, and delivering
@@ -72,7 +72,7 @@ declare(strict_types=1);
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
                     <h5>Starts September 2026</h5>
                     <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
-                    <p><span class="resume-status-badge">Accepted</span></p>
+                    <p><span class="resume-status-badge">Currently Studying at Fanshawe</span></p>
                     <p>
                         One-year program focused on building, managing, and administering systems that analyze big data
                         and convert it into autonomous tasks. Covers highly in-demand skills in AI, machine learning,
@@ -101,8 +101,8 @@ declare(strict_types=1);
                     <h4>Personal Portfolio &amp; Code Showcase</h4>
                     <p>
                         Built with Laravel and Tailwind CSS to demonstrate full-stack capabilities and modern PHP
-                        development practices. Features responsive design, clean architecture, and showcases 8+
-                        years of web development expertise.
+                        development practices. Features responsive design, clean architecture, and showcases 17+
+                        years of web development expertise since 2007.
                     </p>
                     <p><a href="https://www.ruizerwin.com" target="_blank" rel="noopener noreferrer">www.ruizerwin.com</a></p>
                 </div>
@@ -151,11 +151,12 @@ declare(strict_types=1);
                 </div>
 
                 <div class="resume-item">
-                    <h4>English for Academic Purposes (EAP)</h4>
+                    <h4>GAP5 English Program &mdash; Level 10</h4>
                     <h5>Jan 2026 &ndash; Present</h5>
                     <p><em>Fanshawe College &mdash; London, ON</em></p>
                     <ul>
-                        <li>Part-time role while continuing web development work and studies.</li>
+                        <li>Currently studying at Fanshawe College and finalizing GAP5 English Program Level 10.</li>
+                        <li>Part-time studies while continuing web development work.</li>
                         <li>EAPP-0009-01.</li>
                     </ul>
                 </div>
