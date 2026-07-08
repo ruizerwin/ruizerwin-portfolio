@@ -6,7 +6,7 @@ declare(strict_types=1);
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Resume</h2>
-        <p>My experience, education, and the technologies I work with.</p>
+        <p>Senior PHP Full-Stack Developer with 8+ years of enterprise web application experience.</p>
     </div>
 
     <div class="container">
@@ -16,51 +16,82 @@ declare(strict_types=1);
 
                 <h3 class="resume-title">Professional Summary</h3>
                 <div class="resume-item pb-0">
-                    <h4>Erwin D Padilla</h4>
+                    <h4>Erwin D. Padilla</h4>
+                    <p><em>Senior PHP Full-Stack Developer | Laravel, Drupal, AWS</em></p>
                     <p class="resume-summary">
-                        <em>
-                            I am a PHP web developer with many years of experience building and maintaining business
-                            websites and web applications. My work focuses on backend development, databases, API
-                            integrations, and practical solutions that improve reliability and performance. I enjoy
-                            solving problems, learning continuously, and growing professionally in Canada.
-                        </em>
+                        Senior PHP Full-Stack Developer with 8+ years of experience designing, developing, and
+                        maintaining enterprise web applications in Laravel, Livewire, CodeIgniter, Drupal, PHP 8+,
+                        MySQL, SQL Server, JavaScript, Bootstrap, Tailwind CSS, REST APIs, and AWS cloud
+                        hosting. Optimizing application performance, integrating third-party services, and delivering
+                        scalable solutions in remote environments. Strong problem-solving, debugging, and database
+                        design skills with extensive experience supporting business-critical applications.
                     </p>
                     <ul>
-                        <li>London, Ontario</li>
+                        <li>London, ON</li>
                         <li><a href="tel:+14165053876">416-505-3876</a></li>
                         <li><a href="mailto:ruizerwin@hotmail.com">ruizerwin@hotmail.com</a></li>
+                        <li><a href="https://www.ruizerwin.com" target="_blank" rel="noopener noreferrer">www.ruizerwin.com</a></li>
                     </ul>
                 </div>
 
                 <h3 class="resume-title">Core Skills</h3>
                 <div class="resume-skills">
-                    <span>PHP 8.2+</span>
+                    <span>PHP 8+</span>
                     <span>Laravel</span>
-                    <span>CodeIgniter</span>
+                    <span>Livewire</span>
+                    <span>CodeIgniter 4</span>
+                    <span>Drupal 9/10</span>
                     <span>MySQL</span>
-                    <span>REST APIs</span>
-                    <span>Bootstrap</span>
+                    <span>SQL Server</span>
+                    <span>Stored Procedures</span>
+                    <span>Query Optimization</span>
                     <span>JavaScript</span>
-                    <span>AWS</span>
+                    <span>jQuery</span>
+                    <span>AJAX</span>
+                    <span>Bootstrap 5</span>
+                    <span>Tailwind CSS</span>
+                    <span>Alpine.js</span>
+                    <span>REST APIs</span>
+                    <span>Third-Party Integrations</span>
+                    <span>AWS Lightsail</span>
+                    <span>Linux Administration</span>
+                    <span>Apache</span>
+                    <span>SSH</span>
+                    <span>Git</span>
+                    <span>GitHub</span>
+                    <span>VS Code</span>
+                    <span>Xdebug</span>
+                    <span>Deployment Pipelines</span>
+                    <span>Performance Optimization</span>
+                    <span>Security Best Practices</span>
                 </div>
 
                 <h3 class="resume-title">Education</h3>
                 <div class="resume-item">
-                    <h4>Bachelor’s Degree in Computer Science</h4>
-                    <h5>1997 - 2003</h5>
-                    <p><em>National Autonomous University of Nicaragua, León, Nicaragua</em></p>
-                    <p>
-                        Strong academic foundation in programming, systems, technical problem-solving,
-                        and software development.
-                    </p>
+                    <h4>Bachelor&rsquo;s Degree in Computer Science</h4>
+                    <h5>1997 &ndash; 2003</h5>
+                    <p><em>National Autonomous University of Nicaragua UNAN &ndash; Le&oacute;n, Nicaragua</em></p>
                 </div>
-
-                <h3 class="resume-title">Related Training</h3>
 
                 <div class="resume-item">
                     <h4>Cloud Architecture</h4>
-                    <h5>2022</h5>
                     <p><em>Intellipaat, Mississauga, ON</em></p>
+                </div>
+
+                <div class="resume-item">
+                    <h4>Computer Networking, Maintenance &amp; Web Development</h4>
+                    <p><em>Le&oacute;n, Nicaragua</em></p>
+                </div>
+
+                <h3 class="resume-title">Projects</h3>
+                <div class="resume-item">
+                    <h4>Personal Portfolio &amp; Code Showcase</h4>
+                    <p>
+                        Built with Laravel and Tailwind CSS to demonstrate full-stack capabilities and modern PHP
+                        development practices. Features responsive design, clean architecture, and showcases 8+
+                        years of web development expertise.
+                    </p>
+                    <p><a href="https://www.ruizerwin.com" target="_blank" rel="noopener noreferrer">www.ruizerwin.com</a></p>
                 </div>
 
             </div>
@@ -71,57 +102,49 @@ declare(strict_types=1);
 
                 <div class="resume-item">
                     <h4>PHP / Web Developer</h4>
-                    <h5>2007 - 2022</h5>
-                    <p><em>J&amp;B Importers — Remote / Miami, FL</em></p>
+                    <h5>2007 &ndash; 2022</h5>
+                    <p><em>J&amp;B Importers &mdash; Remote</em></p>
                     <ul>
-                        <li>Built and maintained company websites with both front-end and back-end development.</li>
-                        <li>Configured and supported PHP applications, SQL Server, and MySQL environments.</li>
-                        <li>Developed custom features for authentication, sessions, payments, and responsive layouts.</li>
-                        <li>Improved system stability and reduced recurring issues through maintenance and debugging.</li>
-                        <li>Provided technical support and helped keep internal systems reliable.</li>
+                        <li>Developed and maintained large-scale B2B and e-commerce applications serving customers across North America.</li>
+                        <li>Designed and implemented custom PHP applications, APIs, and database-driven business solutions.</li>
+                        <li>Integrated SQL Server, MySQL, UPS APIs, payment gateways, and third-party business services.</li>
+                        <li>Optimized application performance and database queries, significantly reducing response times.</li>
+                        <li>Managed Linux and Windows hosting environments, deployments, troubleshooting, and production support.</li>
+                        <li>Collaborated with business stakeholders to translate operational requirements into technical solutions.</li>
                     </ul>
                 </div>
 
                 <div class="resume-item">
                     <h4>Web Developer</h4>
                     <h5>2023</h5>
-                    <p><em>Haya Solutions — Remote / Mississauga, ON</em></p>
+                    <p><em>Haya Solutions &mdash; Remote</em></p>
                     <ul>
-                        <li>Built REST API integrations using CodeIgniter for third-party services.</li>
-                        <li>Improved development speed with cleaner structure and reusable components.</li>
-                        <li>Created custom functions and features based on client needs.</li>
+                        <li>Built and implemented RESTful APIs using CodeIgniter to integrate with third-party services.</li>
+                        <li>Improved development time by 20% through cleaner architecture and reusable components.</li>
+                        <li>Developed custom functions to extend features and support client requirements.</li>
                     </ul>
                 </div>
 
                 <div class="resume-item">
                     <h4>Drupal Developer</h4>
-                    <h5>2024 - 2025</h5>
-                    <p><em>Y Partners Inc. — Remote / London, ON</em></p>
+                    <h5>2024 &ndash; 2025</h5>
+                    <p><em>Y Partners Inc. &mdash; Remote</em></p>
                     <ul>
-                        <li>Created and improved Drupal CMS features for better performance and stability.</li>
-                        <li>Worked with front-end teams to build responsive interfaces using Twig and Bootstrap.</li>
-                        <li>Developed custom Drupal modules to support business needs.</li>
-                        <li>Helped optimize load speed and improve content structure.</li>
+                        <li>Created, maintained, and optimized Drupal CMS features to improve speed and stability.</li>
+                        <li>Worked with front-end teams to build modern, mobile-friendly interfaces using Twig and Bootstrap.</li>
+                        <li>Built custom Drupal modules to support business logic and new system functionality.</li>
+                        <li>Reduced load time by 30% through optimization and content-structure improvements.</li>
                     </ul>
                 </div>
 
                 <div class="resume-item">
                     <h4>English for Academic Purposes (EAP)</h4>
-                    <h5>2025 - Present</h5>
-                    <p><em>Fanshawe College — London, ON</em></p>
-                    <p>
-                        Currently completing advanced English studies to strengthen professional communication
-                        and support future academic growth in Canada.
-                    </p>
-                </div>
-
-                <div class="resume-item">
-                    <h4>School Bus Driver (Part-Time)</h4>
-                    <h5>Sept 2025 - Present</h5>
-                    <p><em>Langs — London, ON</em></p>
-                    <p>
-                        Part-time role while continuing my web development career and studies in Canada.
-                    </p>
+                    <h5>Jan 2026 &ndash; Present</h5>
+                    <p><em>Fanshawe College &mdash; London, ON</em></p>
+                    <ul>
+                        <li>Part-time role while continuing web development work and studies.</li>
+                        <li>EAPP-0009-01.</li>
+                    </ul>
                 </div>
 
             </div>
