@@ -3,7 +3,7 @@
     <div class="container section-title" data-aos="fade-up">
         <h2><?= e('About'); ?></h2>
         <p>
-            <?= e('Senior PHP Full-Stack Developer building secure, scalable, and maintainable enterprise web applications.'); ?>
+            <?= e('Senior PHP Full-Stack Developer with 17+ years of experience since 2007, building secure, scalable, and maintainable enterprise web applications.'); ?>
         </p>
     </div>
 

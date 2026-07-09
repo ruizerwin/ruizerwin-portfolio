@@ -14,7 +14,7 @@
                     <h1><?= e('Erwin D. Padilla'); ?></h1>
 
                     <p class="hero-lead">
-                        <?= e('Senior PHP developer with 17+ years (since 2007) building web applications, APIs, and cloud-hosted systems on PHP, Linux, Bootstrap, and Windows environments.'); ?>
+                        <?= e('Senior PHP Full-Stack Developer with 17+ years of experience since 2007, building web applications, APIs, and cloud-hosted systems on PHP, Linux, Bootstrap, and Windows environments.'); ?>
                     </p>
 
                     <ul class="hero-benefits">

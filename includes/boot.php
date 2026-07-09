@@ -71,8 +71,8 @@ define('RESUME_PDF_AVAILABLE', is_file($projectRoot . '/' . RESUME_PDF_FILE));
  * Optional dynamic values
  * Set these before including head.php when needed.
  */
-$pageTitle = $pageTitle ?? APP_NAME . ' | PHP Developer';
-$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer in London, ON. 17+ years since 2007 in Laravel, Drupal, CodeIgniter, MySQL, AWS.';
+$pageTitle = $pageTitle ?? 'Erwin D. Padilla | Senior PHP Full-Stack Developer — 17+ Years Since 2007';
+$pageDescription = $pageDescription ?? 'Erwin D. Padilla — Senior PHP Full-Stack Developer with 17+ years of experience since 2007. Laravel, Drupal, CodeIgniter, MySQL, AWS. London, ON.';
 $pageKeywords = $pageKeywords ?? 'Ruiz Erwin, PHP Developer, PHP 8.2, Laravel, CodeIgniter, MySQL, SQL, Bootstrap, JavaScript, Web Developer, Portfolio';
 $pageUrl = $pageUrl ?? (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '/'));
 $pageImage = $pageImage ?? 'assets/img/og-image.jpg';

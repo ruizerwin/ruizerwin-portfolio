@@ -5,7 +5,7 @@ declare(strict_types=1);
 <footer id="footer" class="footer position-relative light-background">
     <div class="container">
         <h3 class="sitename">Erwin D. Padilla</h3>
-        <p>Senior PHP Full-Stack Developer &middot; Laravel, Drupal, AWS &middot; London, ON</p>
+        <p>Senior PHP Full-Stack Developer with 17+ years of experience since 2007 &middot; Laravel, Drupal, AWS &middot; London, ON</p>
 
         <div class="social-links d-flex justify-content-center">
             <a href="https://www.linkedin.com/in/ruizerwin/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>

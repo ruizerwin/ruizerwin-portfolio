@@ -40,7 +40,7 @@ $highlights = [
 
     <div class="container section-title" data-aos="fade-up">
         <h2><?= e('Why Work With Me'); ?></h2>
-        <p><?= e('What clients and teams can expect when we collaborate on a project.'); ?></p>
+        <p><?= e('Senior PHP Full-Stack Developer with 17+ years of experience since 2007 — what clients and teams can expect when we collaborate.'); ?></p>
     </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">

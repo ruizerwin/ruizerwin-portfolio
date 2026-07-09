@@ -7,7 +7,7 @@ declare(strict_types=1);
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Portfolio</h2>
-        <p>Selected systems and projects — with brief case-study highlights from real engagements.</p>
+        <p>Selected systems and projects from 17+ years of experience since 2007 — with brief case-study highlights.</p>
     </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">

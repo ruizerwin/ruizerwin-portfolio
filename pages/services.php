@@ -2,7 +2,7 @@
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Services</h2>
-        <p>Enterprise web development, integration, and production support for growing businesses.</p>
+        <p>Senior PHP Full-Stack Developer with 17+ years of experience since 2007 — enterprise web development, integration, and production support.</p>
     </div>
 
     <div class="container">

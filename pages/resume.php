@@ -6,7 +6,7 @@ declare(strict_types=1);
 
     <div class="container section-title" data-aos="fade-up">
         <h2>Resume</h2>
-        <p>Senior PHP Full-Stack Developer with 17+ years of web development experience since 2007.</p>
+        <p>Senior PHP Full-Stack Developer with 17+ years of experience since 2007.</p>
     </div>
 
     <div class="container resume-actions-bar" data-aos="fade-up" data-aos-delay="50">
@@ -45,7 +45,7 @@ declare(strict_types=1);
                     <p><em>Senior PHP Full-Stack Developer | Laravel, Drupal, AWS</em></p>
                     <p class="resume-summary">
                         Senior PHP Full-Stack Developer with 17+ years of experience since 2007 designing, developing, and
-                        maintaining enterprise web applications in Laravel, Livewire, CodeIgniter, Drupal, PHP 8+,
+                        maintaining enterprise web applications in Laravel, Livewire, CodeIgniter, Drupal, PHP 8.2+,
                         MySQL, SQL Server, JavaScript, Bootstrap, Tailwind CSS, REST APIs, and AWS cloud
                         hosting. Optimizing application performance, integrating third-party services, and delivering
                         scalable solutions in remote environments. Strong problem-solving, debugging, and database
@@ -61,7 +61,7 @@ declare(strict_types=1);
 
                 <h3 class="resume-title">Core Skills</h3>
                 <div class="resume-skills">
-                    <span>PHP 8+</span>
+                    <span>PHP 8.2+</span>
                     <span>Laravel</span>
                     <span>Livewire</span>
                     <span>CodeIgniter 4</span>
