@@ -139,6 +139,27 @@
 
 .home-custom-style .hero-actions {
 	margin-bottom: 25px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.home-custom-style .hero-availability {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 18px;
+	padding: 10px 16px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	color: rgba(255, 255, 255, 0.92);
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.home-custom-style .hero-availability i {
+	color: #9fd0ff;
 }
 
 .home-custom-style .hero-actions .btn {

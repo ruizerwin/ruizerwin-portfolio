@@ -214,14 +214,21 @@ try {
     $mail->Password   = ZOHO_APP_PASSWORD;
     $mail->Port       = (int) ZOHO_SMTP_PORT;
     $mail->CharSet    = 'UTF-8';
+    $mail->Encoding   = 'base64';
 
     $encryption = smtp_encryption();
-    if ($encryption !== '') {
+    if ($encryption === PHPMailer::ENCRYPTION_SMTPS) {
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->SMTPAutoTLS = false;
+    } elseif ($encryption !== '') {
         $mail->SMTPSecure = $encryption;
     }
 
-    $mail->setFrom(MAIL_FROM_ADDRESS, MAIL_FROM_NAME);
-    $mail->addAddress(MAIL_INBOX_ADDRESS, MAIL_INBOX_NAME);
+    $mail->Sender = MAIL_FROM_ADDRESS;
+    $mail->setFrom(MAIL_FROM_ADDRESS, MAIL_FROM_NAME, true);
+
+    $inboxName = trim(str_replace(['"', "'"], '', MAIL_INBOX_NAME));
+    $mail->addAddress(MAIL_INBOX_ADDRESS, $inboxName);
     $mail->addReplyTo($email, $name);
 
     $mail->Subject = '[Portfolio Contact] ' . $subject;

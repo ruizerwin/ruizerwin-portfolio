@@ -11,6 +11,7 @@
 <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/site-enhancements.js"></script>
 
 </body>
 </html>

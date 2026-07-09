@@ -137,6 +137,21 @@
     line-height: 1.8;
 }
 
+#about .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#about .about-actions .btn {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
 #about .btn {
     border-radius: 8px;
     padding: 10px 20px;

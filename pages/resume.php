@@ -9,6 +9,31 @@ declare(strict_types=1);
         <p>Senior PHP Full-Stack Developer with 17+ years of web development experience since 2007.</p>
     </div>
 
+    <div class="container resume-actions-bar" data-aos="fade-up" data-aos-delay="50">
+        <?php if (resume_pdf_available()): ?>
+            <a
+                href="<?= e(resume_pdf_url()); ?>"
+                class="btn btn-primary btn-resume-download"
+                download="Erwin_Padilla_Resume.pdf"
+                data-track="resume-download">
+                <i class="bi bi-download"></i>
+                <?= e('Download PDF Resume'); ?>
+            </a>
+        <?php endif; ?>
+        <a
+            href="<?= e(linkedin_url()); ?>"
+            class="btn btn-outline-primary"
+            target="_blank"
+            rel="noopener noreferrer">
+            <i class="bi bi-linkedin"></i>
+            <?= e('Connect on LinkedIn'); ?>
+        </a>
+        <a href="#contact" class="btn btn-outline-primary">
+            <i class="bi bi-envelope"></i>
+            <?= e('Get in Touch'); ?>
+        </a>
+    </div>
+
     <div class="container">
         <div class="row gy-4">
 
@@ -70,7 +95,7 @@ declare(strict_types=1);
 
                 <div class="resume-item">
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
-                    <p><em>Fanshawe College &mdash; London, ON &middot; Post-Graduate Co-op Certificate</em></p>
+                    <p><em>Fanshawe College &mdash; London, ON &middot; Currently studying &middot; Post-Graduate Co-op Certificate</em></p>
                     <p><em>GAP5 culmination</em></p>
                     <p>
                         One-year program focused on building, managing, and administering systems that analyze big data

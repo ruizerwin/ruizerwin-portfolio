@@ -30,7 +30,7 @@
                     </div>
                     <div>
                         <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
-                        <p class="mb-1"><em><?= e('Post-Graduate Co-op Certificate · GAP5 culmination'); ?></em></p>
+                        <p class="mb-1"><em><?= e('Currently studying · Post-Graduate Co-op Certificate · GAP5 culmination'); ?></em></p>
                         <p class="mb-2">
                             <?= e('One-year program focused on building, managing, and administering systems that analyze big data and convert insights into autonomous tasks. Covers AI, machine learning, and data-driven automation for real-world applications.'); ?>
                         </p>
@@ -107,8 +107,23 @@
                     <?= e('I combine backend engineering, database optimization, and production support to deliver reliable systems — while expanding into artificial intelligence and machine learning.'); ?>
                 </p>
 
-                <div class="mt-4">
-                    <a href="#resume" class="btn btn-primary me-2"><?= e('View Resume'); ?></a>
+                <div class="mt-4 about-actions">
+                    <a href="#resume" class="btn btn-primary"><?= e('View Resume'); ?></a>
+                    <?php if (resume_pdf_available()): ?>
+                        <a
+                            href="<?= e(resume_pdf_url()); ?>"
+                            class="btn btn-outline-primary btn-resume-download"
+                            download="Erwin_Padilla_Resume.pdf"
+                            data-track="resume-download"><?= e('Download PDF'); ?></a>
+                    <?php endif; ?>
+                    <a
+                        href="<?= e(linkedin_url()); ?>"
+                        class="btn btn-outline-primary"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="bi bi-linkedin"></i>
+                        <?= e('LinkedIn'); ?>
+                    </a>
                     <a href="#contact" class="btn btn-outline-primary"><?= e('Contact Me'); ?></a>
                 </div>
             </div>

@@ -10,6 +10,7 @@ $page_css_files = [
     'assets/css/pages/about.css',
     'assets/css/pages/resume.css',
     'assets/css/pages/portfolio.css',
+    'assets/css/pages/highlights.css',
     'assets/css/pages/services.css',
     'assets/css/pages/contact.css',
 ];
@@ -19,6 +20,7 @@ $page_sections = [
     'about',
     'resume',
     'portfolio',
+    'highlights',
     'services',
     'contact',
 ];

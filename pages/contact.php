@@ -33,11 +33,33 @@ $recaptchaEnabled = $recaptchaSiteKey !== '';
                         </div>
                     </div>
 
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="250">
+                        <i class="bi bi-linkedin flex-shrink-0"></i>
+                        <div>
+                            <h3>LinkedIn</h3>
+                            <p>
+                                <a
+                                    href="<?= e(linkedin_url()); ?>"
+                                    target="_blank"
+                                    rel="noopener noreferrer">linkedin.com/in/ruizerwin</a>
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
                         <i class="bi bi-envelope flex-shrink-0"></i>
                         <div>
                             <h3>Email</h3>
-                            <p><a href="mailto:ruizerwin@hotmail.com">ruizerwin@hotmail.com</a></p>
+                            <p>
+                                <a href="mailto:ruizerwin@hotmail.com">ruizerwin@hotmail.com</a>
+                                <button
+                                    type="button"
+                                    class="btn-copy-contact"
+                                    data-copy="ruizerwin@hotmail.com"
+                                    aria-label="Copy email address">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </p>
                         </div>
                     </div>
 

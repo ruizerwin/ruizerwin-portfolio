@@ -40,3 +40,18 @@
     {
         return htmlspecialchars((string)($value ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
+
+    function linkedin_url(): string
+    {
+        return defined('LINKEDIN_URL') ? (string) LINKEDIN_URL : 'https://www.linkedin.com/in/ruizerwin/';
+    }
+
+    function resume_pdf_url(): string
+    {
+        return defined('RESUME_PDF_FILE') ? (string) RESUME_PDF_FILE : 'assets/downloads/Erwin_Padilla_Resume.pdf';
+    }
+
+    function resume_pdf_available(): bool
+    {
+        return defined('RESUME_PDF_AVAILABLE') && RESUME_PDF_AVAILABLE;
+    }

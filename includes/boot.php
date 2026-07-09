@@ -63,6 +63,10 @@ define('MAIL_FROM_NAME', $_ENV['MAIL_FROM_NAME'] ?? $_ENV['SMTP_FROM_NAME'] ?? A
 define('MAIL_INBOX_ADDRESS', $_ENV['MAIL_INBOX_ADDRESS'] ?? $_ENV['CONTACT_TO_EMAIL'] ?? 'ruizerwin1@gmail.com');
 define('MAIL_INBOX_NAME', $_ENV['MAIL_INBOX_NAME'] ?? $_ENV['CONTACT_TO_NAME'] ?? 'Erwin Padilla');
 
+define('LINKEDIN_URL', 'https://www.linkedin.com/in/ruizerwin/');
+define('RESUME_PDF_FILE', 'assets/downloads/Erwin_Padilla_Resume.pdf');
+define('RESUME_PDF_AVAILABLE', is_file($projectRoot . '/' . RESUME_PDF_FILE));
+
 /**
  * Optional dynamic values
  * Set these before including head.php when needed.

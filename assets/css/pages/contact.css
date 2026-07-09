@@ -33,6 +33,30 @@
 .contact .info-item p {
 	font-size: 15px;
 	line-height: 1.6;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.btn-copy-contact {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 1px solid rgba(5, 99, 187, 0.2);
+	border-radius: 8px;
+	background: #f4f8fc;
+	color: var(--accent-color);
+	transition: all 0.2s ease;
+}
+
+.btn-copy-contact:hover {
+	background: var(--accent-color);
+	border-color: var(--accent-color);
+	color: #ffffff;
 }
 
 .contact .contact-form-card .form-label {

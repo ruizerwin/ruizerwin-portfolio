@@ -52,9 +52,29 @@
                         </div>
                     </div>
 
+                    <p class="hero-availability">
+                        <i class="bi bi-briefcase"></i>
+                        <?= e('Available for: Freelance · Contract · Remote'); ?>
+                    </p>
+
                     <div class="hero-actions">
                         <a href="#portfolio" class="btn btn-primary"><?= e('View Work'); ?></a>
                         <a href="#contact" class="btn btn-outline-light"><?= e('Hire Me'); ?></a>
+                        <?php if (resume_pdf_available()): ?>
+                            <a
+                                href="<?= e(resume_pdf_url()); ?>"
+                                class="btn btn-outline-light btn-resume-download"
+                                download="Erwin_Padilla_Resume.pdf"
+                                data-track="resume-download"><?= e('Download Resume'); ?></a>
+                        <?php endif; ?>
+                        <a
+                            href="<?= e(linkedin_url()); ?>"
+                            class="btn btn-outline-light btn-linkedin"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            <i class="bi bi-linkedin"></i>
+                            <?= e('LinkedIn'); ?>
+                        </a>
                     </div>
 
                     <div class="hero-stack">
