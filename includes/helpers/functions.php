@@ -48,7 +48,27 @@
 
     function resume_pdf_url(): string
     {
-        return defined('RESUME_PDF_FILE') ? (string) RESUME_PDF_FILE : 'assets/downloads/Erwin_Padilla_Resume.pdf';
+        $path = '/download/resume.php';
+        $base = defined('APP_URL') ? rtrim((string) APP_URL, '/') : '';
+
+        if ($base !== '') {
+            if (str_starts_with($base, 'http://')) {
+                $base = 'https://' . substr($base, 7);
+            }
+
+            return $base . $path;
+        }
+
+        $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+
+        if ($isHttps) {
+            $host = $_SERVER['HTTP_HOST'] ?? 'ruizerwin.com';
+
+            return 'https://' . $host . $path;
+        }
+
+        return $path;
     }
 
     function resume_pdf_available(): bool

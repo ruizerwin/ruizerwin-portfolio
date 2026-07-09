@@ -69,8 +69,8 @@ $highlights = [
                     <a
                         href="<?= e(resume_pdf_url()); ?>"
                         class="btn btn-outline-primary btn-resume-download"
-                        download="Erwin_Padilla_Resume.pdf"
-                        data-track="resume-download">
+                        data-track="resume-download"
+                        rel="noopener">
                         <i class="bi bi-download"></i>
                         <?= e('Download Resume'); ?>
                     </a>

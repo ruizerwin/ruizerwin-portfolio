@@ -64,8 +64,8 @@
                             <a
                                 href="<?= e(resume_pdf_url()); ?>"
                                 class="btn btn-outline-light btn-resume-download"
-                                download="Erwin_Padilla_Resume.pdf"
-                                data-track="resume-download"><?= e('Download Resume'); ?></a>
+                                data-track="resume-download"
+                                rel="noopener"><?= e('Download Resume'); ?></a>
                         <?php endif; ?>
                         <a
                             href="<?= e(linkedin_url()); ?>"
