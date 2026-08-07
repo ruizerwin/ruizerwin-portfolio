@@ -29,8 +29,8 @@
                         <i class="bi bi-mortarboard"></i>
                     </div>
                     <div>
-                        <h4><?= e('AI & Machine Learning â€” Fanshawe College'); ?></h4>
-                        <p class="mb-1"><em><?= e('Currently Studying · Post-Graduate Co-op Certificate'); ?></em></p>
+                        <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
+                        <p class="mb-1"><em><?= e('Completed · Post-Graduate Co-op Certificate'); ?></em></p>
                         <p class="mb-2">
                             <?= e('One-year program focused on building, managing, and administering systems that analyze big data and convert insights into autonomous tasks. Covers AI, machine learning, and data-driven automation for real-world applications.'); ?>
                         </p>
@@ -104,7 +104,7 @@
                 </div>
 
                 <p class="about-summary mt-4 mb-0">
-                    <?= e('I combine backend engineering, database optimization, and production support to deliver reliable systems â€” while expanding into artificial intelligence and machine learning.'); ?>
+                    <?= e('I combine backend engineering, database optimization, and production support to deliver reliable systems — while expanding into artificial intelligence and machine learning.'); ?>
                 </p>
 
                 <div class="mt-4 about-actions">
