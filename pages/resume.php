@@ -95,8 +95,7 @@ declare(strict_types=1);
 
                 <div class="resume-item">
                     <h4>Artificial Intelligence &amp; Machine Learning</h4>
-                    <p><em>Fanshawe College &mdash; London, ON &middot; Currently studying &middot; Post-Graduate Co-op Certificate</em></p>
-                    <p><em>GAP5 culmination</em></p>
+                    <p><em>Fanshawe College &mdash; London, ON &middot; Completed &middot; Post-Graduate Co-op Certificate</em></p>
                     <p>
                         One-year program focused on building, managing, and administering systems that analyze big data
                         and convert it into autonomous tasks. Covers highly in-demand skills in AI, machine learning,

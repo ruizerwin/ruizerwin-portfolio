@@ -56,6 +56,9 @@ jobs:
             sudo chown -R ubuntu:www-data "${{ steps.vars.outputs.deploy_path }}"
             sudo find "${{ steps.vars.outputs.deploy_path }}" -type d -exec chmod 775 {} \;
             sudo find "${{ steps.vars.outputs.deploy_path }}" -type f -exec chmod 664 {} \;
+            if [ -f "${{ steps.vars.outputs.deploy_path }}/.env" ]; then
+              sudo chmod 640 "${{ steps.vars.outputs.deploy_path }}/.env"
+            fi
 
       - name: Verify deployment
         run: |

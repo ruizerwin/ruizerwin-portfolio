@@ -246,10 +246,24 @@ $recaptchaEnabled = $recaptchaSiteKey !== '';
                 return response.text().then(function(text) {
                     return {
                         ok: response.ok,
-                        text: text.trim()
+                        text: text.trim(),
+                        csrfToken: response.headers.get('X-CSRF-Token') || ''
                     };
                 });
             });
+        }
+
+        function syncCsrfToken(token) {
+            if (!token) {
+                return;
+            }
+
+            const csrfField = form.querySelector('input[name="csrf_token"]');
+
+            if (csrfField) {
+                csrfField.value = token;
+                csrfField.defaultValue = token;
+            }
         }
 
         function handleResult(result) {
@@ -267,6 +281,7 @@ $recaptchaEnabled = $recaptchaSiteKey !== '';
                 throw new Error(result.text || 'Unexpected server response.');
             }
 
+            syncCsrfToken(result.csrfToken);
             form.reset();
 
             if (tokenField) {

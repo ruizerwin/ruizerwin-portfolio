@@ -30,7 +30,7 @@
                     </div>
                     <div>
                         <h4><?= e('AI & Machine Learning — Fanshawe College'); ?></h4>
-                        <p class="mb-1"><em><?= e('Currently studying · Post-Graduate Co-op Certificate · GAP5 culmination'); ?></em></p>
+                        <p class="mb-1"><em><?= e('Currently studying · Post-Graduate Co-op Certificate'); ?></em></p>
                         <p class="mb-2">
                             <?= e('One-year program focused on building, managing, and administering systems that analyze big data and convert insights into autonomous tasks. Covers AI, machine learning, and data-driven automation for real-world applications.'); ?>
                         </p>
