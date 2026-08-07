@@ -257,6 +257,7 @@ try {
     $_SESSION['contact_last_submit'] = $now;
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
+    header('X-CSRF-Token: ' . $_SESSION['csrf_token']);
     exit('OK');
 } catch (Exception $e) {
     fail_response('Unable to send your message right now. Please try again later.', 500, 'Mailer error: ' . $e->getMessage());

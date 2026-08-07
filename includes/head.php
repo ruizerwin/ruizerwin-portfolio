@@ -61,7 +61,7 @@ require __DIR__ . '/helpers/essentials.php';
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS -->
-    <link href="assets/css/main.css?v=1.1" rel="stylesheet">
+    <link href="assets/css/main.css?v=1.2" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="assets/css/custom.css?v=1.2" rel="stylesheet">
