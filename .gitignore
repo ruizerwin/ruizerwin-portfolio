@@ -1,11 +1,89 @@
+# ============================================================
+# RUIZERWIN.COM
+# Files that must NEVER be committed to GitHub
+# ============================================================
+
+# ENVIRONMENT / SECRETS
 .env
 .env.*
 !.env.example
 
+auth.json
+credentials.json
+secrets.json
+
+# SSH / SSL / PRIVATE KEYS
+*.pem
+*.key
+*.ppk
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+
+# PHP / COMPOSER
 /vendor/
+composer.phar
+.phpunit.result.cache
+.phpunit.cache/
+
+# NODE / NPM
 /node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE / EDITORS
 .vscode/
 .idea/
+.cursor/
+*.code-workspace
 
-# Local sync scripts (keep on each computer only)
+# LOCAL DEVELOPMENT / DEPLOYMENT
+/tools/
 *.bat
+*.cmd
+*.ps1
+
+# LOGS
+*.log
+/logs/
+/log/
+
+# TEMP / CACHE
+/tmp/
+/temp/
+/cache/
+*.tmp
+*.temp
+*.cache
+
+# DATABASE BACKUPS
+*.sql
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+
+# BACKUPS
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+*~
+*.swp
+*.swo
+
+# OPERATING SYSTEM
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ARCHIVES
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
