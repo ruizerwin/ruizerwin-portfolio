@@ -6,9 +6,6 @@
 /node_modules/
 .vscode/
 .idea/
-ruizerwin.com.code-workspace
-.cursor/
-/tools/
 
 # Local sync scripts (keep on each computer only)
 *.bat
