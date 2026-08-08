@@ -135,7 +135,7 @@ def main() -> None:
     pdf.set_font("Helvetica", "B", 10)
     pdf.cell(0, 5, "Artificial Intelligence & Machine Learning", ln=1)
     pdf.set_font("Helvetica", "I", 10)
-    pdf.cell(0, 5, "Fanshawe College - London, ON | Completed | Post-Graduate Co-op Certificate", ln=1)
+    pdf.cell(0, 5, "Fanshawe College - London, ON | Currently studying | Expected 2027 | Post-Graduate Co-op Certificate", ln=1)
     body_text(
         pdf,
         "One-year program focused on building, managing, and administering "

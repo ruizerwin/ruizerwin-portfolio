@@ -30,8 +30,8 @@ $highlights = [
     ],
     [
         'icon'  => 'bi-cpu',
-        'title' => 'AI / ML Ready',
-        'text'  => 'Completed AI & Machine Learning at Fanshawe College — applying data-driven thinking to modern web systems.',
+        'title' => 'Growing in AI / ML',
+        'text'  => 'Currently studying AI & Machine Learning at Fanshawe College (expected 2027) — applying data-driven thinking to modern web systems.',
     ],
 ];
 ?>
