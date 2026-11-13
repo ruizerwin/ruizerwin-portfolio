@@ -1,18 +1,26 @@
 # ============================================================
-# RUIZERWIN.COM
-# Files that must NEVER be committed to GitHub
+# ruizerwin.com — Laravel 13
+# Commit only application source. Never commit secrets or deps.
 # ============================================================
 
-# ENVIRONMENT / SECRETS
+# --- Environment / secrets (real files stay on each machine/server) ---
+# Exact names only — do NOT use ".env.*" or templates would be blocked.
 .env
-.env.*
-!.env.example
-
+.env.local
+.env.staging
+.env.production
+.env.backup
+.env.*.local
 auth.json
 credentials.json
 secrets.json
 
-# SSH / SSL / PRIVATE KEYS
+# Committed templates (not matched by the exact names above):
+#   .env.example
+#   .env.staging.example
+#   .env.production.example
+
+# --- SSH / SSL / private keys ---
 *.pem
 *.key
 *.ppk
@@ -21,53 +29,57 @@ id_rsa.*
 id_ed25519
 id_ed25519.*
 
-# PHP / COMPOSER
+# --- Composer / PHP ---
 /vendor/
-/apps/web/vendor/
 composer.phar
 .phpunit.result.cache
 .phpunit.cache/
 
-# NODE / NPM
+# --- Node / NPM ---
 /node_modules/
-/apps/web/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+package-lock.json
 
-# LARAVEL (Portfolio 2.0 parallel app under apps/web)
-/apps/web/storage/logs/*
-/apps/web/storage/framework/cache/*
-/apps/web/storage/framework/sessions/*
-/apps/web/storage/framework/views/*
-/apps/web/bootstrap/cache/*
-!/apps/web/storage/logs/.gitignore
-!/apps/web/storage/framework/cache/.gitignore
-!/apps/web/storage/framework/sessions/.gitignore
-!/apps/web/storage/framework/views/.gitignore
-!/apps/web/bootstrap/cache/.gitignore
-/apps/web/public/hot
-/apps/web/public/storage
+# --- Laravel runtime / build ---
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*.php
+!/storage/logs/.gitignore
+!/storage/framework/cache/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/views/.gitignore
+!/bootstrap/cache/.gitignore
 
-# IDE / EDITORS
+# --- IDE / editors ---
 .vscode/
 .idea/
 .cursor/
+.fleet/
+.nova/
+.zed/
 *.code-workspace
+.phpactor.json
 
-# LOCAL DEVELOPMENT / DEPLOYMENT
+# --- Local tooling ---
 /tools/
 *.bat
 *.cmd
 *.ps1
 
-# LOGS
+# --- Logs / temp ---
 *.log
 /logs/
 /log/
-
-# TEMP / CACHE
 /tmp/
 /temp/
 /cache/
@@ -75,14 +87,16 @@ pnpm-debug.log*
 *.temp
 *.cache
 
-# DATABASE BACKUPS
+# --- Database dumps ---
 *.sql
 *.sql.gz
 *.dump
 *.sqlite
 *.sqlite3
+/database/*.sqlite
+/database/*.sqlite3
 
-# BACKUPS
+# --- Backups ---
 *.bak
 *.backup
 *.old
@@ -92,14 +106,17 @@ pnpm-debug.log*
 *.swp
 *.swo
 
-# OPERATING SYSTEM
+# --- OS ---
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ARCHIVES
+# --- Archives ---
 *.zip
 *.rar
 *.7z
 *.tar
 *.tar.gz
+
+Homestead.json
+Homestead.yaml

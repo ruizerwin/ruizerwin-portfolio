@@ -35,7 +35,7 @@ jobs:
             set -euo pipefail
 
             DEPLOY_PATH="${{ steps.vars.outputs.deploy_path }}"
-            APP_PATH="${DEPLOY_PATH}/apps/web"
+            APP_PATH="${DEPLOY_PATH}"
             BRANCH="${{ github.ref_name }}"
 
             cd "${DEPLOY_PATH}"
@@ -85,16 +85,17 @@ jobs:
               exit 1
             fi
 
-            # Never run git clean — preserves untracked .env, vendor/, storage, old site files.
+            # Never run git clean — preserves untracked .env, vendor/, storage.
 
-            if [ ! -d "${APP_PATH}" ]; then
-              echo "ERROR: Laravel app not found at ${APP_PATH}."
+            if [ ! -f "${APP_PATH}/artisan" ]; then
+              echo "ERROR: Laravel artisan not found at ${APP_PATH}/artisan."
               exit 1
             fi
 
             if [ ! -f "${APP_PATH}/.env" ]; then
               echo "ERROR: Missing ${APP_PATH}/.env"
-              echo "Create it on the server first. Refusing to generate or overwrite APP_KEY."
+              echo "Create it on the server from .env.staging.example or .env.production.example."
+              echo "Refusing to generate or overwrite APP_KEY."
               exit 1
             fi
 
@@ -113,11 +114,9 @@ jobs:
 
             cd "${APP_PATH}"
 
-            # Composer + Artisan must use PHP 8.4 inside apps/web only.
             php8.4 "${COMPOSER_BIN}" install --no-dev --optimize-autoloader --no-interaction
 
             # Writable only where Laravel must write; never the whole repo; never 777.
-            # Does not modify .env contents — only tightens mode on the existing file.
             sudo chown -R ubuntu:www-data storage bootstrap/cache
             sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
             sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
