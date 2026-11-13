@@ -25,7 +25,21 @@ if (is_file($envFile)) {
     $dotenv->safeLoad();
 }
 
-$appEnv = $_ENV['APP_ENV'] ?? 'production';
+/**
+ * Read an environment value from $_ENV, $_SERVER, or getenv().
+ * Dotenv may populate different stores depending on server/php.ini settings.
+ */
+$envValue = static function (string $key, ?string $default = null): ?string {
+    $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
+
+    if ($value === false || $value === null || $value === '') {
+        return $default;
+    }
+
+    return is_scalar($value) ? (string) $value : $default;
+};
+
+$appEnv = $envValue('APP_ENV', 'production') ?? 'production';
 
 if (in_array($appEnv, ['local', 'development'], true)) {
     ini_set('display_errors', '1');
@@ -63,26 +77,26 @@ if (!headers_sent()) {
     }
 }
 
-define('APP_NAME', $_ENV['APP_NAME'] ?? 'ruizerwin');
-define('APP_URL', rtrim($_ENV['APP_URL'] ?? 'https://ruizerwin.com', '/'));
+define('APP_NAME', $envValue('APP_NAME', 'ruizerwin') ?? 'ruizerwin');
+define('APP_URL', rtrim($envValue('APP_URL', 'https://ruizerwin.com') ?? 'https://ruizerwin.com', '/'));
 
 // reCAPTCHA v3 (supports new and legacy .env names)
-define('RECAPTCHA_V3_SITE_KEY', $_ENV['RECAPTCHA_V3_SITE_KEY'] ?? $_ENV['CONTACT_RECAPTCHA_SITE_KEY'] ?? '');
-define('RECAPTCHA_V3_SECRET_KEY', $_ENV['RECAPTCHA_V3_SECRET_KEY'] ?? $_ENV['CONTACT_RECAPTCHA_SECRET_KEY'] ?? '');
+define('RECAPTCHA_V3_SITE_KEY', $envValue('RECAPTCHA_V3_SITE_KEY') ?? $envValue('CONTACT_RECAPTCHA_SITE_KEY', '') ?? '');
+define('RECAPTCHA_V3_SECRET_KEY', $envValue('RECAPTCHA_V3_SECRET_KEY') ?? $envValue('CONTACT_RECAPTCHA_SECRET_KEY', '') ?? '');
 
 // Zoho Mail SMTP (supports new and legacy .env names)
-define('ZOHO_SMTP_HOST', $_ENV['ZOHO_SMTP_HOST'] ?? $_ENV['SMTP_HOST'] ?? 'smtp.zohocloud.ca');
-define('ZOHO_SMTP_PORT', (int) ($_ENV['ZOHO_SMTP_PORT'] ?? $_ENV['SMTP_PORT'] ?? 465));
-define('ZOHO_SMTP_USER', $_ENV['ZOHO_SMTP_USER'] ?? $_ENV['SMTP_USERNAME'] ?? 'contact@ruizerwin.com');
-define('ZOHO_APP_PASSWORD', $_ENV['ZOHO_APP_PASSWORD'] ?? $_ENV['SMTP_PASSWORD'] ?? '');
-define('ZOHO_SMTP_ENCRYPTION', $_ENV['ZOHO_SMTP_ENCRYPTION'] ?? $_ENV['SMTP_ENCRYPTION'] ?? 'ssl');
+define('ZOHO_SMTP_HOST', $envValue('ZOHO_SMTP_HOST') ?? $envValue('SMTP_HOST', 'smtp.zohocloud.ca') ?? 'smtp.zohocloud.ca');
+define('ZOHO_SMTP_PORT', (int) ($envValue('ZOHO_SMTP_PORT') ?? $envValue('SMTP_PORT', '465') ?? '465'));
+define('ZOHO_SMTP_USER', $envValue('ZOHO_SMTP_USER') ?? $envValue('SMTP_USERNAME', 'contact@ruizerwin.com') ?? 'contact@ruizerwin.com');
+define('ZOHO_APP_PASSWORD', $envValue('ZOHO_APP_PASSWORD') ?? $envValue('SMTP_PASSWORD', '') ?? '');
+define('ZOHO_SMTP_ENCRYPTION', $envValue('ZOHO_SMTP_ENCRYPTION') ?? $envValue('SMTP_ENCRYPTION', 'ssl') ?? 'ssl');
 
-define('MAIL_FROM_ADDRESS', $_ENV['MAIL_FROM_ADDRESS'] ?? $_ENV['SMTP_FROM_EMAIL'] ?? 'contact@ruizerwin.com');
-define('MAIL_FROM_NAME', $_ENV['MAIL_FROM_NAME'] ?? $_ENV['SMTP_FROM_NAME'] ?? APP_NAME);
+define('MAIL_FROM_ADDRESS', $envValue('MAIL_FROM_ADDRESS') ?? $envValue('SMTP_FROM_EMAIL', 'contact@ruizerwin.com') ?? 'contact@ruizerwin.com');
+define('MAIL_FROM_NAME', $envValue('MAIL_FROM_NAME') ?? $envValue('SMTP_FROM_NAME', APP_NAME) ?? APP_NAME);
 
 // Contact form inbox (supports new and legacy .env names)
-define('MAIL_INBOX_ADDRESS', $_ENV['MAIL_INBOX_ADDRESS'] ?? $_ENV['CONTACT_TO_EMAIL'] ?? 'ruizerwin1@gmail.com');
-define('MAIL_INBOX_NAME', $_ENV['MAIL_INBOX_NAME'] ?? $_ENV['CONTACT_TO_NAME'] ?? 'Erwin Padilla');
+define('MAIL_INBOX_ADDRESS', $envValue('MAIL_INBOX_ADDRESS') ?? $envValue('CONTACT_TO_EMAIL', 'ruizerwin1@gmail.com') ?? 'ruizerwin1@gmail.com');
+define('MAIL_INBOX_NAME', $envValue('MAIL_INBOX_NAME') ?? $envValue('CONTACT_TO_NAME', 'Erwin Padilla') ?? 'Erwin Padilla');
 
 define('LINKEDIN_URL', 'https://www.linkedin.com/in/ruizerwin/');
 define('RESUME_PDF_FILE', 'assets/downloads/Erwin_Padilla_Resume.pdf');

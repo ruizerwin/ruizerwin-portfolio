@@ -23,16 +23,32 @@ id_ed25519.*
 
 # PHP / COMPOSER
 /vendor/
+/apps/web/vendor/
 composer.phar
 .phpunit.result.cache
 .phpunit.cache/
 
 # NODE / NPM
 /node_modules/
+/apps/web/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# LARAVEL (Portfolio 2.0 parallel app under apps/web)
+/apps/web/storage/logs/*
+/apps/web/storage/framework/cache/*
+/apps/web/storage/framework/sessions/*
+/apps/web/storage/framework/views/*
+/apps/web/bootstrap/cache/*
+!/apps/web/storage/logs/.gitignore
+!/apps/web/storage/framework/cache/.gitignore
+!/apps/web/storage/framework/sessions/.gitignore
+!/apps/web/storage/framework/views/.gitignore
+!/apps/web/bootstrap/cache/.gitignore
+/apps/web/public/hot
+/apps/web/public/storage
 
 # IDE / EDITORS
 .vscode/
