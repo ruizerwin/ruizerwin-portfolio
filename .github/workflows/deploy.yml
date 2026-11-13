@@ -62,28 +62,26 @@ jobs:
             echo "Fetching origin/${BRANCH}..."
             git fetch origin "${BRANCH}"
 
-            # Keep / migrate Laravel .env only (not a site backup).
+            # Keep real Laravel .env only (migrate from old apps/web path if needed).
             if [ -f apps/web/.env ] && [ ! -f .env ]; then
               echo "Moving apps/web/.env -> .env"
               mv apps/web/.env .env
             fi
 
             git checkout "${BRANCH}"
-
-            # Exact match to GitHub; discard leftover tracked junk from old PHP layout.
             git reset --hard "origin/${BRANCH}"
 
-            # Delete ALL untracked/ignored leftovers except .env (no vendor/old PHP/apps leftovers).
-            # vendor is reinstalled by Composer below.
+            # Remove every leftover except .env (old PHP, apps/, old vendor, etc.).
             git clean -fdx -e .env
 
-            if [ ! -f artisan ]; then
-              echo "ERROR: Laravel artisan not found after sync."
+            if [ ! -f artisan ] || [ ! -d public ]; then
+              echo "ERROR: Laravel root files missing after sync."
+              ls -la
               exit 1
             fi
 
             if [ ! -f .env ]; then
-              echo "WARNING: No .env found. Creating from ${ENV_EXAMPLE} (fill mail/reCAPTCHA on server)."
+              echo "WARNING: Creating .env from ${ENV_EXAMPLE}. Add Zoho + reCAPTCHA on the server."
               cp "${ENV_EXAMPLE}" .env
               php8.4 artisan key:generate --force
             fi
@@ -100,21 +98,28 @@ jobs:
             php8.4 artisan optimize:clear
             php8.4 artisan optimize
 
-            # Point Apache at Laravel public/ for this host (fixes staging 404 after apps/web removal).
-            if [ -d /etc/apache2/sites-enabled ]; then
-              echo "Updating Apache DocumentRoot to ${PUBLIC_PATH} where this host is configured..."
-              shopt -s nullglob
-              for conf in /etc/apache2/sites-enabled/*.conf /etc/apache2/sites-available/*.conf; do
-                if grep -Eq "ServerName[[:space:]]+${DEPLOY_HOST}|ServerAlias.*${DEPLOY_HOST}|DocumentRoot[[:space:]]+\"?${DEPLOY_PATH}" "${conf}"; then
-                  echo "Patching ${conf}"
-                  sudo sed -i -E "s#DocumentRoot[[:space:]]+[^[:space:]]+#DocumentRoot ${PUBLIC_PATH}#g" "${conf}"
-                  sudo sed -i -E "s#(<Directory[[:space:]]+)\"?${DEPLOY_PATH}(/public)?\"?#\1\"${PUBLIC_PATH}\"#g" "${conf}"
-                fi
-              done
-              shopt -u nullglob
-              sudo apache2ctl configtest
-              sudo systemctl reload apache2
+            echo "Fixing Apache DocumentRoot -> ${PUBLIC_PATH}"
+            mapfile -t CONF_FILES < <(sudo grep -RIl -E "ServerName[[:space:]]+${DEPLOY_HOST}|ServerAlias.*${DEPLOY_HOST}|DocumentRoot.*(staging|ruizerwin)" /etc/apache2/sites-enabled /etc/apache2/sites-available 2>/dev/null || true)
+
+            if [ "${#CONF_FILES[@]}" -eq 0 ]; then
+              echo "ERROR: No Apache vhost found for ${DEPLOY_HOST}."
+              sudo ls -la /etc/apache2/sites-enabled || true
+              exit 1
             fi
+
+            for conf in "${CONF_FILES[@]}"; do
+              echo "Updating ${conf}"
+              sudo sed -i -E "s#^([[:space:]]*DocumentRoot)[[:space:]].*#\1 ${PUBLIC_PATH}#" "${conf}"
+              sudo sed -i -E "s#^([[:space:]]*<Directory)[[:space:]]+[^>]+>#\1 ${PUBLIC_PATH}>#" "${conf}"
+              echo "---- ${conf} (DocumentRoot/Directory) ----"
+              sudo grep -nE 'DocumentRoot|<Directory' "${conf}" || true
+            done
+
+            sudo apache2ctl configtest
+            sudo systemctl reload apache2
+
+            echo "Local smoke check:"
+            curl -sI "http://127.0.0.1/" -H "Host: ${DEPLOY_HOST}" | head -n 15 || true
 
       - name: Verify deployment over HTTPS
         run: |
