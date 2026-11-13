@@ -20,111 +20,46 @@ jobs:
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "deploy_path=/var/www/ruizerwin.com" >> $GITHUB_OUTPUT
             echo "deploy_host=ruizerwin.com" >> $GITHUB_OUTPUT
-            echo "env_example=.env.production.example" >> $GITHUB_OUTPUT
           else
             echo "deploy_path=/var/www/staging" >> $GITHUB_OUTPUT
             echo "deploy_host=staging.ruizerwin.com" >> $GITHUB_OUTPUT
-            echo "env_example=.env.staging.example" >> $GITHUB_OUTPUT
           fi
 
-      - name: Deploy Laravel app via SSH
+      - name: Deploy files via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            set -euo pipefail
-
-            DEPLOY_PATH="${{ steps.vars.outputs.deploy_path }}"
-            DEPLOY_HOST="${{ steps.vars.outputs.deploy_host }}"
-            ENV_EXAMPLE="${{ steps.vars.outputs.env_example }}"
-            BRANCH="${{ github.ref_name }}"
-            PUBLIC_PATH="${DEPLOY_PATH}/public"
-
-            cd "${DEPLOY_PATH}"
-
+            set -e
+            cd "${{ steps.vars.outputs.deploy_path }}"
             if [ ! -d .git ]; then
-              echo "ERROR: ${DEPLOY_PATH} is not a git repository."
-              exit 1
+              git clone https://github.com/${{ github.repository }} .
+            fi
+            git fetch origin
+            git checkout ${{ github.ref_name }}
+            git reset --hard origin/${{ github.ref_name }}
+            if command -v composer >/dev/null 2>&1; then
+              composer install --no-dev --optimize-autoloader --no-interaction
+            else
+              echo "Warning: composer not found on server. Run 'composer install' manually."
             fi
 
-            if ! command -v php8.4 >/dev/null 2>&1; then
-              echo "ERROR: php8.4 is required but was not found on PATH."
-              exit 1
+      - name: Fix permissions
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          username: ${{ secrets.LIGHTSAIL_USER }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          script: |
+            sudo chown -R ubuntu:www-data "${{ steps.vars.outputs.deploy_path }}"
+            sudo find "${{ steps.vars.outputs.deploy_path }}" -type d -exec chmod 775 {} \;
+            sudo find "${{ steps.vars.outputs.deploy_path }}" -type f -exec chmod 664 {} \;
+            if [ -f "${{ steps.vars.outputs.deploy_path }}/.env" ]; then
+              sudo chmod 640 "${{ steps.vars.outputs.deploy_path }}/.env"
             fi
 
-            if ! command -v composer >/dev/null 2>&1; then
-              echo "ERROR: composer is required but was not found on PATH."
-              exit 1
-            fi
-
-            echo "Fetching origin/${BRANCH}..."
-            git fetch origin "${BRANCH}"
-
-            # Keep real Laravel .env only (migrate from old apps/web path if needed).
-            if [ -f apps/web/.env ] && [ ! -f .env ]; then
-              echo "Moving apps/web/.env -> .env"
-              mv apps/web/.env .env
-            fi
-
-            git checkout "${BRANCH}"
-            git reset --hard "origin/${BRANCH}"
-
-            # Remove every leftover except .env (old PHP, apps/, old vendor, etc.).
-            git clean -fdx -e .env
-
-            if [ ! -f artisan ] || [ ! -d public ]; then
-              echo "ERROR: Laravel root files missing after sync."
-              ls -la
-              exit 1
-            fi
-
-            if [ ! -f .env ]; then
-              echo "WARNING: Creating .env from ${ENV_EXAMPLE}. Add Zoho + reCAPTCHA on the server."
-              cp "${ENV_EXAMPLE}" .env
-              php8.4 artisan key:generate --force
-            fi
-
-            php8.4 -v
-            COMPOSER_BIN="$(command -v composer)"
-            php8.4 "${COMPOSER_BIN}" install --no-dev --optimize-autoloader --no-interaction
-
-            sudo chown -R ubuntu:www-data storage bootstrap/cache
-            sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
-            sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
-            sudo chmod 640 .env
-
-            php8.4 artisan optimize:clear
-            php8.4 artisan optimize
-
-            echo "Fixing Apache DocumentRoot -> ${PUBLIC_PATH}"
-            mapfile -t CONF_FILES < <(sudo grep -RIl -E "ServerName[[:space:]]+${DEPLOY_HOST}|ServerAlias.*${DEPLOY_HOST}|DocumentRoot.*(staging|ruizerwin)" /etc/apache2/sites-enabled /etc/apache2/sites-available 2>/dev/null || true)
-
-            if [ "${#CONF_FILES[@]}" -eq 0 ]; then
-              echo "ERROR: No Apache vhost found for ${DEPLOY_HOST}."
-              sudo ls -la /etc/apache2/sites-enabled || true
-              exit 1
-            fi
-
-            for conf in "${CONF_FILES[@]}"; do
-              echo "Updating ${conf}"
-              sudo sed -i -E "s#^([[:space:]]*DocumentRoot)[[:space:]].*#\1 ${PUBLIC_PATH}#" "${conf}"
-              sudo sed -i -E "s#^([[:space:]]*<Directory)[[:space:]]+[^>]+>#\1 ${PUBLIC_PATH}>#" "${conf}"
-              echo "---- ${conf} (DocumentRoot/Directory) ----"
-              sudo grep -nE 'DocumentRoot|<Directory' "${conf}" || true
-            done
-
-            sudo apache2ctl configtest
-            sudo systemctl reload apache2
-
-            echo "Local smoke check:"
-            curl -sI "http://127.0.0.1/" -H "Host: ${DEPLOY_HOST}" | head -n 15 || true
-
-      - name: Verify deployment over HTTPS
+      - name: Verify deployment
         run: |
-          set -euo pipefail
-          HOST="${{ steps.vars.outputs.deploy_host }}"
-          echo "Checking https://${HOST}/ ..."
-          curl -sSI "https://${HOST}/" | head -n 20
-          curl -fsSI "https://${HOST}/" >/dev/null
+          curl -I http://${{ steps.vars.outputs.deploy_host }}

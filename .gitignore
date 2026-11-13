@@ -1,26 +1,18 @@
 # ============================================================
-# ruizerwin.com — Laravel 13
-# Commit only application source. Never commit secrets or deps.
+# RUIZERWIN.COM
+# Files that must NEVER be committed to GitHub
 # ============================================================
 
-# --- Environment / secrets (real files stay on each machine/server) ---
-# Exact names only — do NOT use ".env.*" or templates would be blocked.
+# ENVIRONMENT / SECRETS
 .env
-.env.local
-.env.staging
-.env.production
-.env.backup
-.env.*.local
+.env.*
+!.env.example
+
 auth.json
 credentials.json
 secrets.json
 
-# Committed templates (not matched by the exact names above):
-#   .env.example
-#   .env.staging.example
-#   .env.production.example
-
-# --- SSH / SSL / private keys ---
+# SSH / SSL / PRIVATE KEYS
 *.pem
 *.key
 *.ppk
@@ -29,57 +21,37 @@ id_rsa.*
 id_ed25519
 id_ed25519.*
 
-# --- Composer / PHP ---
+# PHP / COMPOSER
 /vendor/
 composer.phar
 .phpunit.result.cache
 .phpunit.cache/
 
-# --- Node / NPM ---
+# NODE / NPM
 /node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-package-lock.json
 
-# --- Laravel runtime / build ---
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/storage/logs/*
-/storage/framework/cache/*
-/storage/framework/sessions/*
-/storage/framework/views/*
-/bootstrap/cache/*.php
-!/storage/logs/.gitignore
-!/storage/framework/cache/.gitignore
-!/storage/framework/sessions/.gitignore
-!/storage/framework/views/.gitignore
-!/bootstrap/cache/.gitignore
-
-# --- IDE / editors ---
+# IDE / EDITORS
 .vscode/
 .idea/
 .cursor/
-.fleet/
-.nova/
-.zed/
 *.code-workspace
-.phpactor.json
 
-# --- Local tooling ---
+# LOCAL DEVELOPMENT / DEPLOYMENT
 /tools/
 *.bat
 *.cmd
 *.ps1
 
-# --- Logs / temp ---
+# LOGS
 *.log
 /logs/
 /log/
+
+# TEMP / CACHE
 /tmp/
 /temp/
 /cache/
@@ -87,16 +59,14 @@ package-lock.json
 *.temp
 *.cache
 
-# --- Database dumps ---
+# DATABASE BACKUPS
 *.sql
 *.sql.gz
 *.dump
 *.sqlite
 *.sqlite3
-/database/*.sqlite
-/database/*.sqlite3
 
-# --- Backups ---
+# BACKUPS
 *.bak
 *.backup
 *.old
@@ -106,17 +76,14 @@ package-lock.json
 *.swp
 *.swo
 
-# --- OS ---
+# OPERATING SYSTEM
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# --- Archives ---
+# ARCHIVES
 *.zip
 *.rar
 *.7z
 *.tar
 *.tar.gz
-
-Homestead.json
-Homestead.yaml

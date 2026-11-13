@@ -1,0 +1,192 @@
+#about {
+    background: #f3f6f9;
+}
+
+#about .section-title {
+    padding-bottom: 40px;
+}
+
+#about .content h3 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    line-height: 1.2;
+}
+
+#about .content p {
+    margin-bottom: 16px;
+    line-height: 1.8;
+}
+
+#about .about-intro {
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+#about img,
+#about .about-profile-img {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#about .about-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#about .about-info li {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#about .about-info i {
+    color: var(--accent-color);
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+#about .about-info strong {
+    margin-right: 8px;
+}
+
+#about .about-mini-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 20px 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    height: 100%;
+}
+
+#about .about-mini-card h4 {
+    margin-bottom: 6px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+#about .about-mini-card p {
+    margin-bottom: 0;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+#about .about-education-notice {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin: 24px 0;
+    padding: 20px 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(5, 99, 187, 0.08), rgba(5, 99, 187, 0.03));
+    border: 1px solid rgba(5, 99, 187, 0.14);
+}
+
+#about .about-education-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--accent-color);
+    color: #fff;
+    font-size: 22px;
+}
+
+#about .about-education-notice h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2f3e4e;
+}
+
+#about .about-education-notice p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #495057;
+}
+
+#about .about-education-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(25, 135, 84, 0.12);
+    color: #198754;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+#about .about-education-meta {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+#about .about-summary {
+    margin-top: 24px;
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+#about .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#about .about-actions .btn {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#about .btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+@media (max-width: 991.98px) {
+    #about .content h3 {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    #about img,
+    #about .about-profile-img {
+        max-width: 340px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #about .content h3 {
+        font-size: 26px;
+    }
+
+    #about .about-intro {
+        font-size: 1rem;
+    }
+
+    #about .about-mini-card {
+        padding: 18px 12px;
+    }
+
+    #about .about-mini-card h4 {
+        font-size: 24px;
+    }
+
+    #about .about-education-notice {
+        flex-direction: column;
+    }
+}
