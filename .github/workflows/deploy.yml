@@ -25,41 +25,108 @@ jobs:
             echo "deploy_host=staging.ruizerwin.com" >> $GITHUB_OUTPUT
           fi
 
-      - name: Deploy files via SSH
+      - name: Deploy Laravel app via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            set -e
-            cd "${{ steps.vars.outputs.deploy_path }}"
+            set -euo pipefail
+
+            DEPLOY_PATH="${{ steps.vars.outputs.deploy_path }}"
+            APP_PATH="${DEPLOY_PATH}/apps/web"
+            BRANCH="${{ github.ref_name }}"
+
+            cd "${DEPLOY_PATH}"
+
             if [ ! -d .git ]; then
-              git clone https://github.com/${{ github.repository }} .
+              echo "ERROR: ${DEPLOY_PATH} is not a git repository."
+              exit 1
             fi
-            git fetch origin
-            git checkout ${{ github.ref_name }}
-            git reset --hard origin/${{ github.ref_name }}
-            if command -v composer >/dev/null 2>&1; then
-              composer install --no-dev --optimize-autoloader --no-interaction
+
+            echo "Fetching origin/${BRANCH}..."
+            git fetch origin "${BRANCH}"
+
+            # Block deploy if tracked files were edited on the server.
+            if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+              echo "ERROR: Local modifications to tracked files detected in ${DEPLOY_PATH}."
+              echo "Resolve or discard them on the server before deploying."
+              git status --porcelain --untracked-files=no
+              exit 1
+            fi
+
+            # Switch to the deployment branch without discarding untracked files.
+            git checkout "${BRANCH}"
+
+            LOCAL_SHA="$(git rev-parse HEAD)"
+            REMOTE_SHA="$(git rev-parse "origin/${BRANCH}")"
+
+            echo "Local  HEAD:  ${LOCAL_SHA}"
+            echo "Remote origin/${BRANCH}: ${REMOTE_SHA}"
+
+            if [ "${LOCAL_SHA}" = "${REMOTE_SHA}" ]; then
+              echo "Already at origin/${BRANCH} (${REMOTE_SHA})."
+            elif git merge-base --is-ancestor "${LOCAL_SHA}" "${REMOTE_SHA}"; then
+              # Local is strictly behind remote — fast-forward only (no reset --hard).
+              echo "Fast-forwarding to origin/${BRANCH}..."
+              git merge --ff-only "origin/${BRANCH}"
             else
-              echo "Warning: composer not found on server. Run 'composer install' manually."
+              echo "ERROR: Server branch '${BRANCH}' has diverged from origin/${BRANCH}."
+              echo "Refusing to deploy. Inspect the server repo and align it with GitHub."
+              git status
+              git log --oneline --left-right "HEAD...origin/${BRANCH}" | head -n 40
+              exit 1
             fi
 
-      - name: Fix permissions
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.LIGHTSAIL_HOST }}
-          username: ${{ secrets.LIGHTSAIL_USER }}
-          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          script: |
-            sudo chown -R ubuntu:www-data "${{ steps.vars.outputs.deploy_path }}"
-            sudo find "${{ steps.vars.outputs.deploy_path }}" -type d -exec chmod 775 {} \;
-            sudo find "${{ steps.vars.outputs.deploy_path }}" -type f -exec chmod 664 {} \;
-            if [ -f "${{ steps.vars.outputs.deploy_path }}/.env" ]; then
-              sudo chmod 640 "${{ steps.vars.outputs.deploy_path }}/.env"
+            DEPLOYED_SHA="$(git rev-parse HEAD)"
+            if [ "${DEPLOYED_SHA}" != "${REMOTE_SHA}" ]; then
+              echo "ERROR: Working tree HEAD (${DEPLOYED_SHA}) does not match origin/${BRANCH} (${REMOTE_SHA})."
+              exit 1
             fi
 
-      - name: Verify deployment
+            # Never run git clean — preserves untracked .env, vendor/, storage, old site files.
+
+            if [ ! -d "${APP_PATH}" ]; then
+              echo "ERROR: Laravel app not found at ${APP_PATH}."
+              exit 1
+            fi
+
+            if [ ! -f "${APP_PATH}/.env" ]; then
+              echo "ERROR: Missing ${APP_PATH}/.env"
+              echo "Create it on the server first. Refusing to generate or overwrite APP_KEY."
+              exit 1
+            fi
+
+            if ! command -v php8.4 >/dev/null 2>&1; then
+              echo "ERROR: php8.4 is required but was not found on PATH."
+              exit 1
+            fi
+
+            if ! command -v composer >/dev/null 2>&1; then
+              echo "ERROR: composer is required but was not found on PATH."
+              exit 1
+            fi
+
+            php8.4 -v
+            COMPOSER_BIN="$(command -v composer)"
+
+            cd "${APP_PATH}"
+
+            # Composer + Artisan must use PHP 8.4 inside apps/web only.
+            php8.4 "${COMPOSER_BIN}" install --no-dev --optimize-autoloader --no-interaction
+
+            # Writable only where Laravel must write; never the whole repo; never 777.
+            # Does not modify .env contents — only tightens mode on the existing file.
+            sudo chown -R ubuntu:www-data storage bootstrap/cache
+            sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
+            sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
+            sudo chmod 640 .env
+
+            php8.4 artisan optimize:clear
+            php8.4 artisan optimize
+
+      - name: Verify deployment over HTTPS
         run: |
-          curl -I http://${{ steps.vars.outputs.deploy_host }}
+          set -euo pipefail
+          curl -fsSI "https://${{ steps.vars.outputs.deploy_host }}"
