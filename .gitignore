@@ -87,3 +87,16 @@ desktop.ini
 *.7z
 *.tar
 *.tar.gz
+
+# LARAVEL LOCAL FILES
+/.vite/
+/public/build/
+/bootstrap/cache/*.php
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/
+
+# ADDITIONAL SECURITY
+.env.production.example
+.env.staging.example
