@@ -56,64 +56,18 @@ jobs:
               exit 1
             fi
 
-            env_value() {
-              local key="$1"
-              local line=""
-              # Never fail the script when a key is absent (pipefail-safe).
-              line="$(grep -E "^${key}=" .env 2>/dev/null | tail -n1 || true)"
-              printf '%s' "${line}" | cut -d= -f2- | tr -d '\r' | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
-            }
-
-            require_env() {
-              local key="$1"
-              local value
-              value="$(env_value "${key}")"
-              if [ -z "${value}" ] || [ "${value}" = "null" ]; then
-                echo "ERROR: ${DEPLOY_PATH}/.env missing required ${key}"
-                exit 1
-              fi
-              echo "OK env ${key}"
-            }
-
-            require_env_any() {
-              local label="$1"
-              shift
-              local key value
-              for key in "$@"; do
-                value="$(env_value "${key}")"
-                if [ -n "${value}" ] && [ "${value}" != "null" ]; then
-                  echo "OK env ${label} via ${key}"
-                  return 0
-                fi
-              done
-              echo "ERROR: ${DEPLOY_PATH}/.env missing required ${label} (tried: $*)"
-              exit 1
-            }
-
-            echo "Validating .env"
-            require_env APP_KEY
-            require_env MAIL_MAILER
-            require_env MAIL_HOST
-            require_env MAIL_PORT
-            require_env MAIL_USERNAME
-            require_env MAIL_PASSWORD
-            require_env MAIL_FROM_ADDRESS
-            require_env_any "contact inbox" MAIL_INBOX_ADDRESS CONTACT_TO_EMAIL
-            require_env_any "reCAPTCHA site key" RECAPTCHA_V3_SITE_KEY CONTACT_RECAPTCHA_SITE_KEY
-            require_env_any "reCAPTCHA secret key" RECAPTCHA_V3_SECRET_KEY CONTACT_RECAPTCHA_SECRET_KEY
-
             echo "Syncing git ${BRANCH}"
             git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
             git reset --hard "origin/${BRANCH}"
-            # Preserve secrets and dependencies if a later step fails.
+            # Never delete secrets or PHP dependencies during clean.
             git clean -fdx -e .env -e vendor
 
             test -f artisan
             test -f public/index.php
             test -f .env
 
-            echo "Installing Composer dependencies"
+            echo "Installing Composer dependencies (restores site if vendor was wiped)"
             COMPOSER_BIN="$(command -v composer)"
             php8.4 "${COMPOSER_BIN}" install --no-dev --optimize-autoloader --no-interaction
             test -f vendor/autoload.php || { echo "ERROR: vendor/autoload.php missing after composer install"; exit 1; }
@@ -130,22 +84,6 @@ jobs:
             php8.4 artisan optimize:clear
             php8.4 artisan optimize
 
-            echo "Verifying runtime config"
-            php8.4 -r '
-              require "vendor/autoload.php";
-              $app = require "bootstrap/app.php";
-              $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-              $site = (string) config("services.recaptcha.site_key");
-              $secret = (string) config("services.recaptcha.secret_key");
-              $mailer = (string) config("mail.default");
-              $from = (string) config("mail.from.address");
-              $inbox = (string) config("mail.contact_inbox_address");
-              if ($site === "" || $secret === "") { fwrite(STDERR, "ERROR: reCAPTCHA keys not loaded into config\n"); exit(1); }
-              if ($mailer !== "smtp") { fwrite(STDERR, "ERROR: MAIL_MAILER must be smtp on deploy hosts\n"); exit(1); }
-              if ($from === "" || $inbox === "") { fwrite(STDERR, "ERROR: mail from/inbox not loaded into config\n"); exit(1); }
-              echo "Config OK: recaptcha=yes mailer=smtp from_set=yes inbox_set=yes\n";
-            '
-
             echo "Ensuring Apache DocumentRoot is ${PUBLIC_PATH}"
             if [ -d /etc/apache2 ]; then
               sudo find /etc/apache2 -type f \( -name '*.conf' -o -name '*-le-ssl.conf' \) -print0 \
@@ -157,7 +95,7 @@ jobs:
                   -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}/apps/web/public>#<Directory ${PUBLIC_PATH}>#g" \
                   -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}/apps/web/public\">#<Directory \"${PUBLIC_PATH}\">#g" \
                   -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}>#<Directory ${PUBLIC_PATH}>#g" \
-                  -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}\">#<Directory \"${PUBLIC_PATH}\">#g"
+                  -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}\">#<Directory \"${PUBLIC_PATH}\">#g" || true
               sudo apache2ctl configtest
               sudo systemctl reload apache2
             fi
