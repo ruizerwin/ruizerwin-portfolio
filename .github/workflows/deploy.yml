@@ -58,7 +58,8 @@ jobs:
 
             env_value() {
               local key="$1"
-              grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+              # Strip quotes/spaces and Windows CR so CRLF .env files still validate.
+              grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | tr -d '\r' | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
             }
 
             require_env() {
@@ -100,14 +101,18 @@ jobs:
             git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
             git reset --hard "origin/${BRANCH}"
-            git clean -fdx -e .env
+            # Keep .env and vendor during clean. -x used to delete vendor; if composer
+            # then failed, staging was left with no autoload.php (site 500).
+            git clean -fdx -e .env -e vendor -e vendor/**
 
             test -f artisan
             test -f public/index.php
             test -f .env
 
             php8.4 "$(command -v composer)" install --no-dev --optimize-autoloader --no-interaction
+            test -f vendor/autoload.php || { echo "ERROR: vendor/autoload.php missing after composer install"; exit 1; }
 
+            mkdir -p storage/logs storage/framework/{cache,sessions,views} bootstrap/cache
             sudo chown -R ubuntu:www-data storage bootstrap/cache
             sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
             sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
