@@ -20,11 +20,9 @@ jobs:
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "deploy_path=/var/www/ruizerwin.com" >> $GITHUB_OUTPUT
             echo "deploy_host=ruizerwin.com" >> $GITHUB_OUTPUT
-            echo "env_example=.env.production.example" >> $GITHUB_OUTPUT
           else
             echo "deploy_path=/var/www/staging" >> $GITHUB_OUTPUT
             echo "deploy_host=staging.ruizerwin.com" >> $GITHUB_OUTPUT
-            echo "env_example=.env.staging.example" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy Laravel app via SSH
@@ -39,7 +37,6 @@ jobs:
 
             DEPLOY_PATH="${{ steps.vars.outputs.deploy_path }}"
             DEPLOY_HOST="${{ steps.vars.outputs.deploy_host }}"
-            ENV_EXAMPLE="${{ steps.vars.outputs.env_example }}"
             BRANCH="${{ github.ref_name }}"
             PUBLIC_PATH="${DEPLOY_PATH}/public"
 
@@ -53,25 +50,20 @@ jobs:
             command -v php8.4 >/dev/null || { echo "ERROR: php8.4 missing"; exit 1; }
             command -v composer >/dev/null || { echo "ERROR: composer missing"; exit 1; }
 
-            git fetch origin "${BRANCH}"
-
-            if [ -f apps/web/.env ] && [ ! -f .env ]; then
-              echo "Moving apps/web/.env -> .env"
-              mv apps/web/.env .env
+            # Real secrets must already exist on the server (never created from git).
+            if [ ! -f .env ]; then
+              echo "ERROR: ${DEPLOY_PATH}/.env is missing. Create it on the server only."
+              exit 1
             fi
 
+            git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
             git reset --hard "origin/${BRANCH}"
             git clean -fdx -e .env
 
             test -f artisan
             test -f public/index.php
-
-            if [ ! -f .env ]; then
-              echo "Creating .env from ${ENV_EXAMPLE}"
-              cp "${ENV_EXAMPLE}" .env
-              php8.4 artisan key:generate --force
-            fi
+            test -f .env
 
             php8.4 "$(command -v composer)" install --no-dev --optimize-autoloader --no-interaction
 

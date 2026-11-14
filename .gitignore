@@ -1,18 +1,11 @@
 # ============================================================
-# ruizerwin.com — Laravel portfolio
-# Commit ONLY app source. Never commit secrets, deps, or junk.
+# ruizerwin.com — Laravel portfolio (PUBLIC repo rules)
+# Commit ONLY app source. Never commit env, secrets, or data.
 # ============================================================
 
-# --- Secrets / environment (real files stay on each machine) ---
+# --- ALL environment files (stay on local/server only) ---
 .env
-.env.local
-.env.staging
-.env.production
-.env.backup
-.env.*.local
-!.env.example
-!.env.staging.example
-!.env.production.example
+.env.*
 auth.json
 credentials.json
 secrets.json
@@ -58,7 +51,7 @@ pnpm-debug.log*
 !/bootstrap/cache/.gitignore
 /.vite/
 
-# --- Databases (never push) ---
+# --- Databases / dumps (never push real data) ---
 *.sql
 *.sql.gz
 *.dump
