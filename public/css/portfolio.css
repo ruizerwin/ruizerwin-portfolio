@@ -1882,14 +1882,15 @@ a {
   margin-bottom: 0.35rem;
 }
 
-/* Scroll-to-top button */
+/* Scroll-to-top button — centered so it does not cover reCAPTCHA (bottom-right) */
 .scroll-top {
   /* Fixed to viewport */
   position: fixed;
   /* Offset from bottom */
   bottom: 24px;
-  /* Offset from right */
-  right: 24px;
+  /* Horizontally centered */
+  left: 50%;
+  right: auto;
   /* Circle width */
   width: 46px;
   /* Circle height */
@@ -1914,6 +1915,8 @@ a {
   border-radius: 50%;
   /* Keep above content */
   z-index: 1100;
+  /* Center on X axis */
+  transform: translateX(-50%);
   /* Smooth fade */
   transition: opacity 0.2s ease;
 }
