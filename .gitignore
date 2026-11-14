@@ -6,6 +6,7 @@
 # --- ALL environment files (stay on local/server only) ---
 .env
 .env.*
+env.portfolio.example
 auth.json
 credentials.json
 secrets.json
