@@ -148,7 +148,11 @@
         }
 
         try {
-            if (window.portfolioRecaptchaSiteKey && window.grecaptcha && tokenField) {
+            if (window.portfolioRecaptchaSiteKey) {
+                if (!window.grecaptcha || !tokenField) {
+                    throw new Error('Security verification is unavailable. Please refresh the page and try again.');
+                }
+
                 await new Promise(function (resolve) {
                     grecaptcha.ready(resolve);
                 });
@@ -156,6 +160,10 @@
                 tokenField.value = await grecaptcha.execute(window.portfolioRecaptchaSiteKey, {
                     action: 'contact_form',
                 });
+
+                if (!tokenField.value) {
+                    throw new Error('Security verification failed. Please refresh the page and try again.');
+                }
             }
 
             const response = await fetch(form.action, {

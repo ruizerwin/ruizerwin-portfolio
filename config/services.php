@@ -36,8 +36,11 @@ return [
     ],
 
     'recaptcha' => [
-        'site_key' => env('RECAPTCHA_V3_SITE_KEY', env('CONTACT_RECAPTCHA_SITE_KEY')),
-        'secret_key' => env('RECAPTCHA_V3_SECRET_KEY', env('CONTACT_RECAPTCHA_SECRET_KEY')),
+        // Prefer RECAPTCHA_V3_*; fall back to legacy CONTACT_RECAPTCHA_*.
+        // Use ?: so empty strings in .env still fall through.
+        'site_key' => env('RECAPTCHA_V3_SITE_KEY') ?: env('CONTACT_RECAPTCHA_SITE_KEY', ''),
+        'secret_key' => env('RECAPTCHA_V3_SECRET_KEY') ?: env('CONTACT_RECAPTCHA_SECRET_KEY', ''),
+        'min_score' => (float) env('RECAPTCHA_V3_MIN_SCORE', 0.5),
     ],
 
 ];

@@ -56,6 +56,28 @@ jobs:
               exit 1
             fi
 
+            require_env() {
+              local key="$1"
+              local value
+              value="$(grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+              if [ -z "${value}" ] || [ "${value}" = "null" ]; then
+                echo "ERROR: ${DEPLOY_PATH}/.env missing required ${key}"
+                exit 1
+              fi
+            }
+
+            # Contact form + Zoho SMTP + reCAPTCHA must be fully configured.
+            require_env APP_KEY
+            require_env MAIL_MAILER
+            require_env MAIL_HOST
+            require_env MAIL_PORT
+            require_env MAIL_USERNAME
+            require_env MAIL_PASSWORD
+            require_env MAIL_FROM_ADDRESS
+            require_env MAIL_INBOX_ADDRESS
+            require_env RECAPTCHA_V3_SITE_KEY
+            require_env RECAPTCHA_V3_SECRET_KEY
+
             git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
             git reset --hard "origin/${BRANCH}"
@@ -74,6 +96,21 @@ jobs:
 
             php8.4 artisan optimize:clear
             php8.4 artisan optimize
+
+            php8.4 -r '
+              require "vendor/autoload.php";
+              $app = require "bootstrap/app.php";
+              $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+              $site = (string) config("services.recaptcha.site_key");
+              $secret = (string) config("services.recaptcha.secret_key");
+              $mailer = (string) config("mail.default");
+              $from = (string) config("mail.from.address");
+              $inbox = (string) config("mail.contact_inbox_address");
+              if ($site === "" || $secret === "") { fwrite(STDERR, "ERROR: reCAPTCHA keys not loaded into config\n"); exit(1); }
+              if ($mailer !== "smtp") { fwrite(STDERR, "ERROR: MAIL_MAILER must be smtp on deploy hosts\n"); exit(1); }
+              if ($from === "" || $inbox === "") { fwrite(STDERR, "ERROR: mail from/inbox not loaded into config\n"); exit(1); }
+              echo "Config OK: recaptcha=yes mailer=smtp from_set=yes inbox_set=yes\n";
+            '
 
             echo "Fixing Apache paths to ${PUBLIC_PATH}"
             sudo find /etc/apache2 -type f \( -name '*.conf' -o -name '*-le-ssl.conf' \) -print0 \

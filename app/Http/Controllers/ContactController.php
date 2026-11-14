@@ -51,9 +51,20 @@ class ContactController extends Controller
             ], 422);
         }
 
-        $secret = (string) config('services.recaptcha.secret_key', '');
+        $siteKey = trim((string) config('services.recaptcha.site_key', ''));
+        $secret = trim((string) config('services.recaptcha.secret_key', ''));
+        $minScore = (float) config('services.recaptcha.min_score', 0.5);
 
-        if ($secret !== '') {
+        // If either key is configured, require a complete reCAPTCHA v3 check.
+        if ($siteKey !== '' || $secret !== '') {
+            if ($siteKey === '' || $secret === '') {
+                report(new \RuntimeException('reCAPTCHA is partially configured. Set both RECAPTCHA_V3_SITE_KEY and RECAPTCHA_V3_SECRET_KEY.'));
+
+                return response()->json([
+                    'message' => 'Unable to send your message right now. Please try again later.',
+                ], 500);
+            }
+
             $token = (string) ($data['g-recaptcha-response'] ?? '');
             $action = (string) ($data['recaptcha_action'] ?? '');
 
@@ -76,18 +87,19 @@ class ContactController extends Controller
             }
 
             $captcha = $verify->json();
+            $score = (float) ($captcha['score'] ?? 0);
 
             if (
                 empty($captcha['success'])
                 || (($captcha['action'] ?? '') !== 'contact_form')
-                || ((float) ($captcha['score'] ?? 0) < 0.5)
+                || $score < $minScore
             ) {
                 return response()->json([
                     'message' => 'Security verification failed. Please try again.',
                 ], 400);
             }
 
-            $data['recaptcha_score'] = (string) ($captcha['score'] ?? '');
+            $data['recaptcha_score'] = (string) $score;
         }
 
         $data['ip'] = (string) $request->ip();
