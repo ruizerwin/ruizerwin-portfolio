@@ -1,0 +1,26 @@
+# Defense-in-depth if DocumentRoot is the project root.
+# Correct setup: DocumentRoot = .../public
+
+Options -Indexes
+
+<IfModule mod_authz_core.c>
+    <FilesMatch "^(?i)(\.env.*|composer\.(json|lock)|artisan|phpunit\.xml|vite\.config\.js|package(-lock)?\.json)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.github
+RedirectMatch 404 /\.cursor
+RedirectMatch 404 /\.idea
+RedirectMatch 404 /vendor/
+RedirectMatch 404 /node_modules/
+RedirectMatch 404 /storage/
+RedirectMatch 404 /bootstrap/
+RedirectMatch 404 /tests/
+RedirectMatch 404 /database/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

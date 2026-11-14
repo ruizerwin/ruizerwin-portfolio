@@ -20,46 +20,87 @@ jobs:
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "deploy_path=/var/www/ruizerwin.com" >> $GITHUB_OUTPUT
             echo "deploy_host=ruizerwin.com" >> $GITHUB_OUTPUT
+            echo "env_example=.env.production.example" >> $GITHUB_OUTPUT
           else
             echo "deploy_path=/var/www/staging" >> $GITHUB_OUTPUT
             echo "deploy_host=staging.ruizerwin.com" >> $GITHUB_OUTPUT
+            echo "env_example=.env.staging.example" >> $GITHUB_OUTPUT
           fi
 
-      - name: Deploy files via SSH
+      - name: Deploy Laravel app via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          command_timeout: 20m
           script: |
-            set -e
-            cd "${{ steps.vars.outputs.deploy_path }}"
+            set -euo pipefail
+
+            DEPLOY_PATH="${{ steps.vars.outputs.deploy_path }}"
+            DEPLOY_HOST="${{ steps.vars.outputs.deploy_host }}"
+            ENV_EXAMPLE="${{ steps.vars.outputs.env_example }}"
+            BRANCH="${{ github.ref_name }}"
+            PUBLIC_PATH="${DEPLOY_PATH}/public"
+
+            cd "${DEPLOY_PATH}"
+
             if [ ! -d .git ]; then
-              git clone https://github.com/${{ github.repository }} .
-            fi
-            git fetch origin
-            git checkout ${{ github.ref_name }}
-            git reset --hard origin/${{ github.ref_name }}
-            if command -v composer >/dev/null 2>&1; then
-              composer install --no-dev --optimize-autoloader --no-interaction
-            else
-              echo "Warning: composer not found on server. Run 'composer install' manually."
+              echo "ERROR: ${DEPLOY_PATH} is not a git repository."
+              exit 1
             fi
 
-      - name: Fix permissions
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.LIGHTSAIL_HOST }}
-          username: ${{ secrets.LIGHTSAIL_USER }}
-          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          script: |
-            sudo chown -R ubuntu:www-data "${{ steps.vars.outputs.deploy_path }}"
-            sudo find "${{ steps.vars.outputs.deploy_path }}" -type d -exec chmod 775 {} \;
-            sudo find "${{ steps.vars.outputs.deploy_path }}" -type f -exec chmod 664 {} \;
-            if [ -f "${{ steps.vars.outputs.deploy_path }}/.env" ]; then
-              sudo chmod 640 "${{ steps.vars.outputs.deploy_path }}/.env"
+            command -v php8.4 >/dev/null || { echo "ERROR: php8.4 missing"; exit 1; }
+            command -v composer >/dev/null || { echo "ERROR: composer missing"; exit 1; }
+
+            git fetch origin "${BRANCH}"
+
+            if [ -f apps/web/.env ] && [ ! -f .env ]; then
+              echo "Moving apps/web/.env -> .env"
+              mv apps/web/.env .env
             fi
 
-      - name: Verify deployment
+            git checkout "${BRANCH}"
+            git reset --hard "origin/${BRANCH}"
+            git clean -fdx -e .env
+
+            test -f artisan
+            test -f public/index.php
+
+            if [ ! -f .env ]; then
+              echo "Creating .env from ${ENV_EXAMPLE}"
+              cp "${ENV_EXAMPLE}" .env
+              php8.4 artisan key:generate --force
+            fi
+
+            php8.4 "$(command -v composer)" install --no-dev --optimize-autoloader --no-interaction
+
+            sudo chown -R ubuntu:www-data storage bootstrap/cache
+            sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
+            sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
+            sudo chmod 640 .env
+
+            php8.4 artisan optimize:clear
+            php8.4 artisan optimize
+
+            echo "Fixing Apache paths to ${PUBLIC_PATH}"
+            sudo find /etc/apache2 -type f \( -name '*.conf' -o -name '*-le-ssl.conf' \) -print0 \
+              | sudo xargs -0 -r sed -i \
+                -e "s#${DEPLOY_PATH}/apps/web/public#${PUBLIC_PATH}#g" \
+                -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\"#DocumentRoot ${PUBLIC_PATH}\"#g" \
+                -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\$#DocumentRoot ${PUBLIC_PATH}#g" \
+                -e "s#DocumentRoot[[:space:]]\+\"${DEPLOY_PATH}\"#DocumentRoot \"${PUBLIC_PATH}\"#g" \
+                -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}/apps/web/public>#<Directory ${PUBLIC_PATH}>#g" \
+                -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}/apps/web/public\">#<Directory \"${PUBLIC_PATH}\">#g" \
+                -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}>#<Directory ${PUBLIC_PATH}>#g" \
+                -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}\">#<Directory \"${PUBLIC_PATH}\">#g"
+
+            sudo apache2ctl configtest
+            sudo systemctl reload apache2
+
+      - name: Verify deployment over HTTPS
         run: |
-          curl -I http://${{ steps.vars.outputs.deploy_host }}
+          set -euo pipefail
+          HOST="${{ steps.vars.outputs.deploy_host }}"
+          curl -sSI "https://${HOST}/" | head -n 20
+          curl -fsSI "https://${HOST}/" >/dev/null
