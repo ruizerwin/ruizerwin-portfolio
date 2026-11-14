@@ -56,14 +56,33 @@ jobs:
               exit 1
             fi
 
+            env_value() {
+              local key="$1"
+              grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+            }
+
             require_env() {
               local key="$1"
               local value
-              value="$(grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+              value="$(env_value "${key}")"
               if [ -z "${value}" ] || [ "${value}" = "null" ]; then
                 echo "ERROR: ${DEPLOY_PATH}/.env missing required ${key}"
                 exit 1
               fi
+            }
+
+            require_env_any() {
+              local label="$1"
+              shift
+              local key value
+              for key in "$@"; do
+                value="$(env_value "${key}")"
+                if [ -n "${value}" ] && [ "${value}" != "null" ]; then
+                  return 0
+                fi
+              done
+              echo "ERROR: ${DEPLOY_PATH}/.env missing required ${label} (tried: $*)"
+              exit 1
             }
 
             # Contact form + Zoho SMTP + reCAPTCHA must be fully configured.
@@ -74,9 +93,9 @@ jobs:
             require_env MAIL_USERNAME
             require_env MAIL_PASSWORD
             require_env MAIL_FROM_ADDRESS
-            require_env MAIL_INBOX_ADDRESS
-            require_env RECAPTCHA_V3_SITE_KEY
-            require_env RECAPTCHA_V3_SECRET_KEY
+            require_env_any "contact inbox" MAIL_INBOX_ADDRESS CONTACT_TO_EMAIL
+            require_env_any "reCAPTCHA site key" RECAPTCHA_V3_SITE_KEY CONTACT_RECAPTCHA_SITE_KEY
+            require_env_any "reCAPTCHA secret key" RECAPTCHA_V3_SECRET_KEY CONTACT_RECAPTCHA_SECRET_KEY
 
             git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
