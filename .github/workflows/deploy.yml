@@ -40,6 +40,7 @@ jobs:
             BRANCH="${{ github.ref_name }}"
             PUBLIC_PATH="${DEPLOY_PATH}/public"
 
+            echo "Deploy start: host=${DEPLOY_HOST} path=${DEPLOY_PATH} branch=${BRANCH}"
             cd "${DEPLOY_PATH}"
 
             if [ ! -d .git ]; then
@@ -50,7 +51,6 @@ jobs:
             command -v php8.4 >/dev/null || { echo "ERROR: php8.4 missing"; exit 1; }
             command -v composer >/dev/null || { echo "ERROR: composer missing"; exit 1; }
 
-            # Real secrets must already exist on the server (never created from git).
             if [ ! -f .env ]; then
               echo "ERROR: ${DEPLOY_PATH}/.env is missing. Create it on the server only."
               exit 1
@@ -58,8 +58,10 @@ jobs:
 
             env_value() {
               local key="$1"
-              # Strip quotes/spaces and Windows CR so CRLF .env files still validate.
-              grep -E "^${key}=" .env | tail -n1 | cut -d= -f2- | tr -d '\r' | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+              local line=""
+              # Never fail the script when a key is absent (pipefail-safe).
+              line="$(grep -E "^${key}=" .env 2>/dev/null | tail -n1 || true)"
+              printf '%s' "${line}" | cut -d= -f2- | tr -d '\r' | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//" -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
             }
 
             require_env() {
@@ -70,6 +72,7 @@ jobs:
                 echo "ERROR: ${DEPLOY_PATH}/.env missing required ${key}"
                 exit 1
               fi
+              echo "OK env ${key}"
             }
 
             require_env_any() {
@@ -79,6 +82,7 @@ jobs:
               for key in "$@"; do
                 value="$(env_value "${key}")"
                 if [ -n "${value}" ] && [ "${value}" != "null" ]; then
+                  echo "OK env ${label} via ${key}"
                   return 0
                 fi
               done
@@ -86,7 +90,7 @@ jobs:
               exit 1
             }
 
-            # Contact form + Zoho SMTP + reCAPTCHA must be fully configured.
+            echo "Validating .env"
             require_env APP_KEY
             require_env MAIL_MAILER
             require_env MAIL_HOST
@@ -98,29 +102,35 @@ jobs:
             require_env_any "reCAPTCHA site key" RECAPTCHA_V3_SITE_KEY CONTACT_RECAPTCHA_SITE_KEY
             require_env_any "reCAPTCHA secret key" RECAPTCHA_V3_SECRET_KEY CONTACT_RECAPTCHA_SECRET_KEY
 
+            echo "Syncing git ${BRANCH}"
             git fetch origin "${BRANCH}"
             git checkout "${BRANCH}"
             git reset --hard "origin/${BRANCH}"
-            # Keep .env and vendor during clean. -x used to delete vendor; if composer
-            # then failed, staging was left with no autoload.php (site 500).
-            git clean -fdx -e .env -e vendor -e vendor/**
+            # Preserve secrets and dependencies if a later step fails.
+            git clean -fdx -e .env -e vendor
 
             test -f artisan
             test -f public/index.php
             test -f .env
 
-            php8.4 "$(command -v composer)" install --no-dev --optimize-autoloader --no-interaction
+            echo "Installing Composer dependencies"
+            COMPOSER_BIN="$(command -v composer)"
+            php8.4 "${COMPOSER_BIN}" install --no-dev --optimize-autoloader --no-interaction
             test -f vendor/autoload.php || { echo "ERROR: vendor/autoload.php missing after composer install"; exit 1; }
+            echo "VENDOR_OK"
 
-            mkdir -p storage/logs storage/framework/{cache,sessions,views} bootstrap/cache
+            echo "Fixing storage permissions"
+            mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
             sudo chown -R ubuntu:www-data storage bootstrap/cache
             sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
             sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
             sudo chmod 640 .env
 
+            echo "Clearing and rebuilding caches"
             php8.4 artisan optimize:clear
             php8.4 artisan optimize
 
+            echo "Verifying runtime config"
             php8.4 -r '
               require "vendor/autoload.php";
               $app = require "bootstrap/app.php";
@@ -136,24 +146,33 @@ jobs:
               echo "Config OK: recaptcha=yes mailer=smtp from_set=yes inbox_set=yes\n";
             '
 
-            echo "Fixing Apache paths to ${PUBLIC_PATH}"
-            sudo find /etc/apache2 -type f \( -name '*.conf' -o -name '*-le-ssl.conf' \) -print0 \
-              | sudo xargs -0 -r sed -i \
-                -e "s#${DEPLOY_PATH}/apps/web/public#${PUBLIC_PATH}#g" \
-                -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\"#DocumentRoot ${PUBLIC_PATH}\"#g" \
-                -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\$#DocumentRoot ${PUBLIC_PATH}#g" \
-                -e "s#DocumentRoot[[:space:]]\+\"${DEPLOY_PATH}\"#DocumentRoot \"${PUBLIC_PATH}\"#g" \
-                -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}/apps/web/public>#<Directory ${PUBLIC_PATH}>#g" \
-                -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}/apps/web/public\">#<Directory \"${PUBLIC_PATH}\">#g" \
-                -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}>#<Directory ${PUBLIC_PATH}>#g" \
-                -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}\">#<Directory \"${PUBLIC_PATH}\">#g"
+            echo "Ensuring Apache DocumentRoot is ${PUBLIC_PATH}"
+            if [ -d /etc/apache2 ]; then
+              sudo find /etc/apache2 -type f \( -name '*.conf' -o -name '*-le-ssl.conf' \) -print0 \
+                | sudo xargs -0 -r sed -i \
+                  -e "s#${DEPLOY_PATH}/apps/web/public#${PUBLIC_PATH}#g" \
+                  -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\"#DocumentRoot ${PUBLIC_PATH}\"#g" \
+                  -e "s#DocumentRoot[[:space:]]\+${DEPLOY_PATH}\$#DocumentRoot ${PUBLIC_PATH}#g" \
+                  -e "s#DocumentRoot[[:space:]]\+\"${DEPLOY_PATH}\"#DocumentRoot \"${PUBLIC_PATH}\"#g" \
+                  -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}/apps/web/public>#<Directory ${PUBLIC_PATH}>#g" \
+                  -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}/apps/web/public\">#<Directory \"${PUBLIC_PATH}\">#g" \
+                  -e "s#<Directory[[:space:]]\+${DEPLOY_PATH}>#<Directory ${PUBLIC_PATH}>#g" \
+                  -e "s#<Directory[[:space:]]\+\"${DEPLOY_PATH}\">#<Directory \"${PUBLIC_PATH}\">#g"
+              sudo apache2ctl configtest
+              sudo systemctl reload apache2
+            fi
 
-            sudo apache2ctl configtest
-            sudo systemctl reload apache2
+            echo "Deploy finished OK"
 
       - name: Verify deployment over HTTPS
         run: |
           set -euo pipefail
           HOST="${{ steps.vars.outputs.deploy_host }}"
+          echo "Checking https://${HOST}/"
           curl -sSI "https://${HOST}/" | head -n 20
-          curl -fsSI "https://${HOST}/" >/dev/null
+          if ! curl -fsSI "https://${HOST}/" >/dev/null; then
+            echo "HTTPS check failed; body follows:"
+            curl -sS "https://${HOST}/" | head -n 60 || true
+            exit 1
+          fi
+          echo "HTTPS OK"
