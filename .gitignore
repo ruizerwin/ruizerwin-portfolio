@@ -119,3 +119,10 @@ desktop.ini
 *.7z
 *.tar
 *.tar.gz
+
+# --- Accidental local clones / dump folders (never push) ---
+/ruizerwin-portfolio-backup.git/
+/ruizerwin-portfolio-clean/
+/*-backup.git/
+/*-backup/
+/*-clean/
