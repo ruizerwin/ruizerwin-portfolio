@@ -19,7 +19,7 @@
     <meta property="og:title" content="{{ $portfolio['seo']['title'] }}">
     <meta property="og:description" content="{{ $portfolio['seo']['description'] }}">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/profile-erwin.jpg') }}">
+    <meta property="og:image" content="{{ asset('images/profile-erwin-02.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('css/portfolio.css') }}?v=7" rel="stylesheet">
+    <link href="{{ asset('css/portfolio.css') }}?v=8" rel="stylesheet">
 </head>
 <body>
     @include('partials.nav')

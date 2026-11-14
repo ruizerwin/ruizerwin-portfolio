@@ -6,11 +6,13 @@
         </div>
 
         <div class="row g-5 align-items-center">
-            <div class="col-lg-4 text-center">
+            <div class="col-lg-4 text-center about-photo-col">
                 <img
-                    src="{{ asset('images/profile-erwin.jpg') }}"
+                    src="{{ asset('images/profile-erwin-02.png') }}"
                     alt="{{ $portfolio['name'] }}"
                     class="about-photo"
+                    width="420"
+                    height="525"
                     loading="lazy">
             </div>
 

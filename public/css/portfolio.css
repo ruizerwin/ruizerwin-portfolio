@@ -893,16 +893,48 @@ a {
   border-color: rgba(15, 28, 36, 0.15);
 }
 
-/* About profile photo */
+/* About photo column — keep image aligned with tall text stack */
+.about-photo-col {
+  /* Stretch with the row on desktop */
+  align-self: stretch;
+  /* Flex so photo can sit upper-center in the column */
+  display: flex;
+  /* Prefer top alignment next to the headline */
+  align-items: flex-start;
+  /* Center horizontally */
+  justify-content: center;
+}
+
+/* About profile photo — taller portrait presence */
 .about-photo {
   /* Soft rounded rectangle */
   border-radius: 28px;
   /* Subtle depth */
   box-shadow: var(--shadow);
-  /* Constrain photo width on large screens */
-  max-width: 340px;
+  /* Wider than before so the face reads larger */
+  width: min(100%, 420px);
+  /* Portrait ratio fills the empty vertical gap */
+  aspect-ratio: 4 / 5;
+  /* Crop cleanly without distortion */
+  object-fit: cover;
+  /* Bias crop toward the face */
+  object-position: center 18%;
   /* Center in column */
   margin: 0 auto;
+  /* Full width inside the flex column constraint */
+  display: block;
+}
+
+/* Keep photo from dominating short mobile viewports */
+@media (max-width: 991.98px) {
+  .about-photo {
+    /* Slightly smaller on stacked layout */
+    width: min(100%, 320px);
+    /* Still portrait, not as tall */
+    aspect-ratio: 4 / 5;
+    /* Comfortable space under heading */
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* About role title */
